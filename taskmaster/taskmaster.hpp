@@ -13,8 +13,13 @@ enum class WeightComparisonResult : int
 
 struct Marble
 {
-    int                    m_id{0};
-    WeightComparisonResult m_weightComparison{WeightComparisonResult::equal};
+    Marble(const int id, const WeightComparisonResult weightComparison)
+      : m_id{id}
+      , m_weightComparison{weightComparison}
+    {
+    }
+    const int                    m_id;
+    const WeightComparisonResult m_weightComparison;
 };
 
 class Taskmaster
@@ -23,12 +28,16 @@ public:
     static const int s_maxNumberOfMarbles{12};
     static const int s_maxAllowedComparison{3};
 
-    /// Default Constructor.
+    /// Creates a Taskmaster!
     ///
-    /// Assigns a random number between 1 and #s_maxNumberOfMarbles to
-    /// m_id of #m_marbleWithDifferentWeight and sets #m_numRemainingComparisons
-    /// to #s_maxAllowedComparison.
-    Taskmaster();
+    /// Creates a marble whose id is randomly chosen between 1 and
+    /// #s_maxNumberOfMarbles, and its weight is either
+    /// WeightComparisonResult::lighter or WeightComparisonResult::heavier than
+    /// other marbles. Then creates a Taskmaster by passing the randomly
+    /// generated marble.
+    ///
+    /// \returns The generated Taskmaster.
+    static Taskmaster create();
 
     /// \note Only for testing; therefore #m_numRemainingComparisons is set to
     /// zero to prevent continuing the game.
@@ -37,8 +46,12 @@ public:
     Marble getMarble();
 
 private:
-    Marble m_marbleWithDifferentWeight;
-    int    m_numRemainingComparisons;
+    /// Assigns \p marbleWithDifferentWeight to #m_marbleWithDifferentWeight
+    /// sets #m_numRemainingComparisons to #s_maxAllowedComparison.
+    Taskmaster(const Marble& marbleWithDifferentWeight);
+
+    const Marble m_marbleWithDifferentWeight;
+    int          m_numRemainingComparisons;
 };
 
 } // namespace SillyProjects

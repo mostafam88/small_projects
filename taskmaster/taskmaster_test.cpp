@@ -7,8 +7,8 @@ namespace SillyProjects
 
 TEST(TaskMasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
 {
-    Taskmaster taskmaster{};
-    const auto marble = taskmaster.getMarble();
+    auto       taskmaster = Taskmaster::create();
+    const auto marble     = taskmaster.getMarble();
 
     EXPECT_GE(marble.m_id, 1);
     EXPECT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
@@ -16,8 +16,8 @@ TEST(TaskMasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
 
 TEST(TaskMasterTest, weightComparisonIsEitherHeavierOrLighter)
 {
-    Taskmaster taskmaster{};
-    const auto marble = taskmaster.getMarble();
+    auto       taskmaster = Taskmaster::create();
+    const auto marble     = taskmaster.getMarble();
 
     EXPECT_TRUE(marble.m_weightComparison == WeightComparisonResult::heavier ||
                 marble.m_weightComparison == WeightComparisonResult::lighter);
@@ -32,15 +32,14 @@ TEST(TaskMasterTest, isItReallyUniformRandom)
 
     for (int i = 0; i < numberOfEvaluations; ++i)
     {
-        SillyProjects::Taskmaster taskmaster{};
-        const auto                marble = taskmaster.getMarble();
+        auto       taskmaster = Taskmaster::create();
+        const auto marble     = taskmaster.getMarble();
 
         ASSERT_GE(marble.m_id, 1);
         ASSERT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
         ++ids[marble.m_id - 1];
 
-        if (marble.m_weightComparison ==
-            SillyProjects::WeightComparisonResult::heavier)
+        if (marble.m_weightComparison == WeightComparisonResult::heavier)
         {
             ++weightDiff[0];
         } else
