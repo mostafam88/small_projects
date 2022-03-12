@@ -9,8 +9,8 @@ const int Taskmaster::s_maxNumberOfMarbles;
 const int Taskmaster::s_maxAllowedComparison;
 
 
-Taskmaster::Taskmaster(const Marble& marbleWithDifferentWeight)
-  : m_marbleWithDifferentWeight{marbleWithDifferentWeight}
+Taskmaster::Taskmaster(const Marble& uniqueMarble)
+  : m_uniqueMarble{uniqueMarble}
   , m_numRemainingComparisons{s_maxAllowedComparison}
 {
 }
@@ -31,9 +31,9 @@ Taskmaster Taskmaster::create()
                                                               ? WeightComparisonResult::heavier
                                                               : WeightComparisonResult::lighter;
 
-    const Marble marbleWithDifferentWeight{id, weightComparison};
+    const Marble uniqueMarble{id, weightComparison};
 
-    return Taskmaster(marbleWithDifferentWeight);
+    return Taskmaster(uniqueMarble);
 }
 
 
@@ -47,7 +47,7 @@ WeightComparisonResult Taskmaster::compare(const std::vector<int>& first,
 Marble Taskmaster::getMarble()
 {
     m_numRemainingComparisons = 0;
-    return m_marbleWithDifferentWeight;
+    return m_uniqueMarble;
 }
 
 

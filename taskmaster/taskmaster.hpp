@@ -44,15 +44,15 @@ public:
     /// \note Only for testing; therefore #m_numRemainingComparisons is set to
     /// zero to prevent continuing the game.
     ///
-    /// \returns #m_marbleWithDifferentWeight.
+    /// \returns #m_uniqueMarble.
     Marble getMarble();
 
 private:
-    /// Assigns \p marbleWithDifferentWeight to #m_marbleWithDifferentWeight
-    /// sets #m_numRemainingComparisons to #s_maxAllowedComparison.
-    Taskmaster(const Marble& marbleWithDifferentWeight);
+    /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
+    /// #m_numRemainingComparisons to #s_maxAllowedComparison.
+    Taskmaster(const Marble& uniqueMarble);
 
-    const Marble m_marbleWithDifferentWeight;
+    const Marble m_uniqueMarble;
     int          m_numRemainingComparisons;
 };
 
