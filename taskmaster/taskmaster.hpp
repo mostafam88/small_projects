@@ -1,6 +1,9 @@
 #ifndef TASKMASTER_HPP
 #define TASKMASTER_HPP
 
+#include <vector>
+
+
 namespace SillyProjects
 {
 
@@ -38,6 +41,22 @@ public:
     ///
     /// \returns The generated Taskmaster.
     static Taskmaster create();
+
+    /// Compares weight of marbles ids in \p first and \p second.
+    ///
+    /// \note Repetitive ids are removed!
+    /// \note The weight difference of the unique marble is never greater than
+    ///       twice or smaller than half of the other marbles, i.e. the result
+    ///       of comparison of the different sizes would tend towards collection
+    ///       with more marbles.
+    ///
+    /// \returns - WeightComparisonResult::equal if marbles have equal weight,
+    ///          - WeightComparisonResult::lighter if marbles in \p first are
+    ///          lighter than those in \p second, and
+    ///          - WeightComparisonResult::heavier if marbles in \p first are
+    ///          heavier that those in \p second.
+    WeightComparisonResult compare(const std::vector<int>& first,
+                                   const std::vector<int>& second);
 
     /// \note Only for testing; therefore #m_numRemainingComparisons is set to
     /// zero to prevent continuing the game.

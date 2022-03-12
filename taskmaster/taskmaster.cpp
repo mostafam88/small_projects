@@ -36,6 +36,14 @@ Taskmaster Taskmaster::create()
     return Taskmaster(marbleWithDifferentWeight);
 }
 
+
+WeightComparisonResult Taskmaster::compare(const std::vector<int>& first,
+                                           const std::vector<int>& second)
+{
+    return WeightComparisonResult::heavier;
+}
+
+
 Marble Taskmaster::getMarble()
 {
     m_numRemainingComparisons = 0;
