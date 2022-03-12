@@ -1,9 +1,11 @@
 #ifndef TASKMASTER_HPP
 #define TASKMASTER_HPP
 
+#include <optional>
 #include <vector>
 
 #include "marble.hpp"
+#include "types.hpp"
 
 namespace SillyProjects
 {
@@ -25,7 +27,8 @@ public:
     /// \returns The generated Taskmaster.
     static Taskmaster create();
 
-    /// Compares weight of marbles ids in \p first and \p second.
+    /// Compares weight of marbles whose ids are found in \p first and
+    /// \p second.
     ///
     /// \note Repetitive ids are removed!
     /// \note The weight difference of the unique marble is never greater than
@@ -51,6 +54,27 @@ private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
     /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
     Taskmaster(const Marble& uniqueMarble);
+
+    /// \returns - an initialized optional with WeightComparisonResult::equal if
+    ///          both marble ids are empty.
+    ///          - an initialized optional with WeightComparisonResult::lighter
+    ///          if size of first is smaller than second.
+    ///          - an initialized optional with WeightComparisonResult::lighter
+    ///          if size of first is smaller than second.
+    ///          - a non-initialized optional otherwise.
+    std::optional<WeightComparisonResult>
+    compareSizes(const Types::MarbleIdsPair& marbleIdsPair);
+
+    /// \pre Given ids have equal size and no id is repeated among them.
+    ///
+    /// \returns - m_weightComparison of #m_uniqueMarble if its id is found in
+    ///          the first list.
+    ///          - opposite of m_weightComparison of #m_uniqueMarble if its id
+    ///          is found in the second list.
+    ///          - WeightComparisonResult::equal if id of #m_uniqueMarble is not
+    ///          found in any of the lists.
+    WeightComparisonResult
+    safeCompare(const Types::MarbleIdsPair& marbleIdsPair);
 
     const Marble m_uniqueMarble;
     int          m_numRemainingComparisons;

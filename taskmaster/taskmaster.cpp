@@ -1,6 +1,9 @@
-#include "taskmaster.hpp"
-
+#include <algorithm>
 #include <random>
+
+#include "taskmaster.hpp"
+#include "taskmasterHelpers.hpp"
+
 
 namespace SillyProjects
 {
@@ -40,7 +43,71 @@ Taskmaster Taskmaster::create()
 WeightComparisonResult Taskmaster::compare(const std::vector<int>& first,
                                            const std::vector<int>& second)
 {
-    return WeightComparisonResult::heavier;
+    const auto marbleIdsPair =
+        TaskmasterHelpers::getNonRepetitiveMarbleIds(first, second);
+    const auto sizeComparisonResult = compareSizes(marbleIdsPair);
+
+    if (sizeComparisonResult.has_value())
+    {
+        return sizeComparisonResult.value();
+    } else
+    {
+        return safeCompare(marbleIdsPair);
+    }
+}
+
+
+std::optional<WeightComparisonResult>
+Taskmaster::compareSizes(const Types::MarbleIdsPair& marbleIdsPair)
+{
+    const auto& first  = marbleIdsPair.first;
+    const auto& second = marbleIdsPair.second;
+
+    if (first.empty() && second.empty())
+    {
+        return {WeightComparisonResult::equal};
+    } else if (first.size() < second.size())
+    {
+        return {WeightComparisonResult::lighter};
+    } else if (first.size() > second.size())
+    {
+        return {WeightComparisonResult::heavier};
+    } else
+    {
+        return {};
+    }
+}
+
+
+WeightComparisonResult
+Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair)
+{
+    const auto& first  = marbleIdsPair.first;
+    const auto& second = marbleIdsPair.second;
+
+    const auto itFirst =
+        std::find(first.begin(), first.end(), m_uniqueMarble.m_id);
+    const bool foundInFirst = (itFirst != first.end());
+    if (foundInFirst)
+    {
+        return m_uniqueMarble.m_weightComparison;
+    } else
+    {
+        const auto itSecond =
+            std::find(second.begin(), second.end(), m_uniqueMarble.m_id);
+        const bool foundInSecond = (itSecond != second.end());
+        if (foundInSecond)
+        {
+            return (m_uniqueMarble.m_weightComparison ==
+                    WeightComparisonResult::lighter)
+                       ? WeightComparisonResult::heavier
+                       : WeightComparisonResult::lighter;
+
+        } else
+        {
+            return WeightComparisonResult::equal;
+        }
+    }
 }
 
 

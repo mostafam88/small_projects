@@ -186,7 +186,7 @@ TEST(TaskMasterTest, compareWithUniqueMarbleInOneOfTheCollections)
                   expectedResultFirstContainingUniqMarble);
 
         const auto resultSecondContainingUniqMarble =
-            taskmaster.compare(containingUniqMarble, notContainingUniqueMarble);
+            taskmaster.compare(notContainingUniqueMarble, containingUniqMarble);
         EXPECT_EQ(resultSecondContainingUniqMarble,
                   expectedResultSecondContainingUniqMarble);
     }
