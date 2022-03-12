@@ -41,7 +41,7 @@ Taskmaster Taskmaster::create()
 
 
 Weight::ComparisonResult Taskmaster::compare(const std::vector<int>& first,
-                                           const std::vector<int>& second)
+                                             const std::vector<int>& second)
 {
     const auto marbleIdsPair =
         TaskmasterHelpers::getNonRepetitiveMarbleIds(first, second);
@@ -98,10 +98,7 @@ Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair)
         const bool foundInSecond = (itSecond != second.end());
         if (foundInSecond)
         {
-            return (m_uniqueMarble.m_weightComparison ==
-                    Weight::ComparisonResult::lighter)
-                       ? Weight::ComparisonResult::heavier
-                       : Weight::ComparisonResult::lighter;
+            return Weight::oppositeOf(m_uniqueMarble.m_weightComparison);
 
         } else
         {

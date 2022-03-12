@@ -35,7 +35,8 @@ TEST(TaskMasterTest, weightComparisonIsEitherHeavierOrLighter)
     auto       taskmaster = Taskmaster::create();
     const auto marble     = taskmaster.getMarble();
 
-    EXPECT_TRUE(marble.m_weightComparison == Weight::ComparisonResult::heavier ||
+    EXPECT_TRUE(marble.m_weightComparison ==
+                    Weight::ComparisonResult::heavier ||
                 marble.m_weightComparison == Weight::ComparisonResult::lighter);
 }
 
@@ -169,9 +170,7 @@ TEST(TaskMasterTest, compareWithUniqueMarbleInOneOfTheCollections)
         const auto expectedResultFirstContainingUniqMarble =
             uniqueMarble.m_weightComparison;
         const auto expectedResultSecondContainingUniqMarble =
-            (uniqueMarble.m_weightComparison == Weight::ComparisonResult::heavier)
-                ? Weight::ComparisonResult::lighter
-                : Weight::ComparisonResult::heavier;
+            Weight::oppositeOf(uniqueMarble.m_weightComparison);
 
         const auto containingUniqMarble =
             TestHelpers::createVectorWithGivenSizeIncludingUniqueId(

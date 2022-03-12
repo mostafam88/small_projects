@@ -14,6 +14,8 @@ enum class ComparisonResult : int
     heavier
 };
 
+ComparisonResult oppositeOf(const ComparisonResult given);
+
 } // namespace Weight
 } // namespace SillyProjects
 
