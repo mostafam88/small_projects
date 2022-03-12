@@ -3,27 +3,10 @@
 
 #include <vector>
 
+#include "marble.hpp"
 
 namespace SillyProjects
 {
-
-enum class WeightComparisonResult : int
-{
-    lighter,
-    equal,
-    heavier
-};
-
-struct Marble
-{
-    Marble(const int id, const WeightComparisonResult weightComparison)
-      : m_id{id}
-      , m_weightComparison{weightComparison}
-    {
-    }
-    const int                    m_id;
-    const WeightComparisonResult m_weightComparison;
-};
 
 class Taskmaster
 {
