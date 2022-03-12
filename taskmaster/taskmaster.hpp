@@ -12,7 +12,7 @@ class Taskmaster
 {
 public:
     static const int s_maxNumberOfMarbles{12};
-    static const int s_maxAllowedComparison{3};
+    static const int s_maxAllowedComparisons{3};
 
     /// Creates a Taskmaster!
     ///
@@ -49,7 +49,7 @@ public:
 
 private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
-    /// #m_numRemainingComparisons to #s_maxAllowedComparison.
+    /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
     Taskmaster(const Marble& uniqueMarble);
 
     const Marble m_uniqueMarble;

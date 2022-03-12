@@ -6,12 +6,12 @@ namespace SillyProjects
 {
 
 const int Taskmaster::s_maxNumberOfMarbles;
-const int Taskmaster::s_maxAllowedComparison;
+const int Taskmaster::s_maxAllowedComparisons;
 
 
 Taskmaster::Taskmaster(const Marble& uniqueMarble)
   : m_uniqueMarble{uniqueMarble}
-  , m_numRemainingComparisons{s_maxAllowedComparison}
+  , m_numRemainingComparisons{s_maxAllowedComparisons}
 {
 }
 
