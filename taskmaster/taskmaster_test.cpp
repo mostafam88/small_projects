@@ -21,7 +21,7 @@ std::vector<int> createVectorWithGivenSizeExcludingUniqueIds(
 } // namespace TestHelpers
 
 
-TEST(TaskMasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
+TEST(TaskmasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
 {
     auto       taskmaster = Taskmaster::create();
     const auto marble     = taskmaster.getMarble();
@@ -30,7 +30,7 @@ TEST(TaskMasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
     EXPECT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
 }
 
-TEST(TaskMasterTest, weightComparisonIsEitherHeavierOrLighter)
+TEST(TaskmasterTest, weightComparisonIsEitherHeavierOrLighter)
 {
     auto       taskmaster = Taskmaster::create();
     const auto marble     = taskmaster.getMarble();
@@ -40,7 +40,7 @@ TEST(TaskMasterTest, weightComparisonIsEitherHeavierOrLighter)
                 marble.m_weightComparison == Weight::ComparisonResult::lighter);
 }
 
-TEST(TaskMasterTest, isItReallyUniformRandom)
+TEST(TaskmasterTest, isItReallyUniformRandom)
 {
     std::array<int, Taskmaster::s_maxNumberOfMarbles> ids{};
     std::array<int, 2>                                weightDiff{};
@@ -87,7 +87,7 @@ TEST(TaskMasterTest, isItReallyUniformRandom)
                 binaryExpectedProbability, binaryTolerance);
 }
 
-TEST(TaskMasterTest, compareWithDifferentSizes)
+TEST(TaskmasterTest, compareWithDifferentSizes)
 {
     {
         SCOPED_TRACE("size of first is greater than second!");
@@ -115,7 +115,7 @@ TEST(TaskMasterTest, compareWithDifferentSizes)
     }
 }
 
-TEST(TaskMasterTest, compareWithEmpty)
+TEST(TaskmasterTest, compareWithEmpty)
 {
     auto taskmaster = Taskmaster::create();
 
@@ -123,7 +123,7 @@ TEST(TaskMasterTest, compareWithEmpty)
     EXPECT_EQ(result, Weight::ComparisonResult::equal);
 }
 
-TEST(TaskMasterTest, compareWithRepetitiveIds)
+TEST(TaskmasterTest, compareWithRepetitiveIds)
 {
     {
         SCOPED_TRACE("first has repetitive ids!");
@@ -158,7 +158,7 @@ TEST(TaskMasterTest, compareWithRepetitiveIds)
     }
 }
 
-TEST(TaskMasterTest, compareWithUniqueMarbleInOneOfTheCollections)
+TEST(TaskmasterTest, compareWithUniqueMarbleInOneOfTheCollections)
 {
     for (int i = 1; i <= 6; ++i)
     {
