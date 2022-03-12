@@ -42,7 +42,7 @@ public:
     ///          - Weight::ComparisonResult::heavier if marbles in \p first are
     ///          heavier that those in \p second.
     Weight::ComparisonResult compare(const std::vector<int>& first,
-                                     const std::vector<int>& second);
+                                     const std::vector<int>& second) const;
 
     /// \note Only for testing; therefore #m_numRemainingComparisons is set to
     /// zero to prevent continuing the game.
@@ -66,7 +66,7 @@ private:
     ///          than second.
     ///          - a non-initialized optional otherwise.
     std::optional<Weight::ComparisonResult>
-    compareSizes(const Types::MarbleIdsPair& marbleIdsPair);
+    compareSizes(const Types::MarbleIdsPair& marbleIdsPair) const;
 
     /// \pre Given ids have equal size and no id is repeated among them.
     ///
@@ -77,7 +77,7 @@ private:
     ///          - Weight::ComparisonResult::equal if id of #m_uniqueMarble is
     ///          not found in any of the lists.
     Weight::ComparisonResult
-    safeCompare(const Types::MarbleIdsPair& marbleIdsPair);
+    safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const;
 
     const Marble m_uniqueMarble;
     int          m_numRemainingComparisons;
