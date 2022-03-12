@@ -35,8 +35,8 @@ TEST(TaskMasterTest, weightComparisonIsEitherHeavierOrLighter)
     auto       taskmaster = Taskmaster::create();
     const auto marble     = taskmaster.getMarble();
 
-    EXPECT_TRUE(marble.m_weightComparison == WeightComparisonResult::heavier ||
-                marble.m_weightComparison == WeightComparisonResult::lighter);
+    EXPECT_TRUE(marble.m_weightComparison == Weight::ComparisonResult::heavier ||
+                marble.m_weightComparison == Weight::ComparisonResult::lighter);
 }
 
 TEST(TaskMasterTest, isItReallyUniformRandom)
@@ -55,13 +55,13 @@ TEST(TaskMasterTest, isItReallyUniformRandom)
         ASSERT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
         ++ids[marble.m_id - 1];
 
-        if (marble.m_weightComparison == WeightComparisonResult::heavier)
+        if (marble.m_weightComparison == Weight::ComparisonResult::heavier)
         {
             ++weightDiff[0];
         } else
         {
             ASSERT_TRUE(marble.m_weightComparison ==
-                        WeightComparisonResult::lighter);
+                        Weight::ComparisonResult::lighter);
             ++weightDiff[1];
         }
     }
@@ -92,25 +92,25 @@ TEST(TaskMasterTest, compareWithDifferentSizes)
         SCOPED_TRACE("size of first is greater than second!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({1, 2}, {4, 5, 6});
-        EXPECT_EQ(result, WeightComparisonResult::lighter);
+        EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("size of first is smaller than second!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({1, 2, 3}, {10, 11});
-        EXPECT_EQ(result, WeightComparisonResult::heavier);
+        EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
     {
         SCOPED_TRACE("first is empty!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({}, {4, 5, 6});
-        EXPECT_EQ(result, WeightComparisonResult::lighter);
+        EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second is empty!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({1, 2, 3}, {});
-        EXPECT_EQ(result, WeightComparisonResult::heavier);
+        EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
 }
 
@@ -119,7 +119,7 @@ TEST(TaskMasterTest, compareWithEmpty)
     auto taskmaster = Taskmaster::create();
 
     const auto result = taskmaster.compare({}, {});
-    EXPECT_EQ(result, WeightComparisonResult::equal);
+    EXPECT_EQ(result, Weight::ComparisonResult::equal);
 }
 
 TEST(TaskMasterTest, compareWithRepetitiveIds)
@@ -128,13 +128,13 @@ TEST(TaskMasterTest, compareWithRepetitiveIds)
         SCOPED_TRACE("first has repetitive ids!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({2, 2}, {4, 5});
-        EXPECT_EQ(result, WeightComparisonResult::lighter);
+        EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second has repetitive ids!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({1, 2, 3}, {11, 10, 11});
-        EXPECT_EQ(result, WeightComparisonResult::heavier);
+        EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
     {
         SCOPED_TRACE("first and second share a repetitive id!");
@@ -147,13 +147,13 @@ TEST(TaskMasterTest, compareWithRepetitiveIds)
         SCOPED_TRACE("first has repetitive ids and shares them with second!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({2, 3, 2}, {2, 5, 3});
-        EXPECT_EQ(result, WeightComparisonResult::lighter);
+        EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second has repetitive ids and shares them with first!");
         auto       taskmaster = Taskmaster::create();
         const auto result     = taskmaster.compare({9, 8, 7}, {8, 10, 8});
-        EXPECT_EQ(result, WeightComparisonResult::heavier);
+        EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
 }
 
@@ -169,9 +169,9 @@ TEST(TaskMasterTest, compareWithUniqueMarbleInOneOfTheCollections)
         const auto expectedResultFirstContainingUniqMarble =
             uniqueMarble.m_weightComparison;
         const auto expectedResultSecondContainingUniqMarble =
-            (uniqueMarble.m_weightComparison == WeightComparisonResult::heavier)
-                ? WeightComparisonResult::lighter
-                : WeightComparisonResult::heavier;
+            (uniqueMarble.m_weightComparison == Weight::ComparisonResult::heavier)
+                ? Weight::ComparisonResult::lighter
+                : Weight::ComparisonResult::heavier;
 
         const auto containingUniqMarble =
             TestHelpers::createVectorWithGivenSizeIncludingUniqueId(

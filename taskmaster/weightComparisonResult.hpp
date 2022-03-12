@@ -4,14 +4,17 @@
 
 namespace SillyProjects
 {
+namespace Weight
+{
 
-enum class WeightComparisonResult : int
+enum class ComparisonResult : int
 {
     lighter,
     equal,
     heavier
 };
 
-}
+} // namespace Weight
+} // namespace SillyProjects
 
 #endif

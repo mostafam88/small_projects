@@ -31,8 +31,8 @@ Taskmaster Taskmaster::create()
     std::uniform_int_distribution<int> uni2(1, 2);
     const auto                         randomBinary     = uni2(rng);
     const auto                         weightComparison = (randomBinary == 1)
-                                                              ? WeightComparisonResult::heavier
-                                                              : WeightComparisonResult::lighter;
+                                                              ? Weight::ComparisonResult::heavier
+                                                              : Weight::ComparisonResult::lighter;
 
     const Marble uniqueMarble{id, weightComparison};
 
@@ -40,7 +40,7 @@ Taskmaster Taskmaster::create()
 }
 
 
-WeightComparisonResult Taskmaster::compare(const std::vector<int>& first,
+Weight::ComparisonResult Taskmaster::compare(const std::vector<int>& first,
                                            const std::vector<int>& second)
 {
     const auto marbleIdsPair =
@@ -57,7 +57,7 @@ WeightComparisonResult Taskmaster::compare(const std::vector<int>& first,
 }
 
 
-std::optional<WeightComparisonResult>
+std::optional<Weight::ComparisonResult>
 Taskmaster::compareSizes(const Types::MarbleIdsPair& marbleIdsPair)
 {
     const auto& first  = marbleIdsPair.first;
@@ -65,13 +65,13 @@ Taskmaster::compareSizes(const Types::MarbleIdsPair& marbleIdsPair)
 
     if (first.empty() && second.empty())
     {
-        return {WeightComparisonResult::equal};
+        return {Weight::ComparisonResult::equal};
     } else if (first.size() < second.size())
     {
-        return {WeightComparisonResult::lighter};
+        return {Weight::ComparisonResult::lighter};
     } else if (first.size() > second.size())
     {
-        return {WeightComparisonResult::heavier};
+        return {Weight::ComparisonResult::heavier};
     } else
     {
         return {};
@@ -79,7 +79,7 @@ Taskmaster::compareSizes(const Types::MarbleIdsPair& marbleIdsPair)
 }
 
 
-WeightComparisonResult
+Weight::ComparisonResult
 Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair)
 {
     const auto& first  = marbleIdsPair.first;
@@ -99,13 +99,13 @@ Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair)
         if (foundInSecond)
         {
             return (m_uniqueMarble.m_weightComparison ==
-                    WeightComparisonResult::lighter)
-                       ? WeightComparisonResult::heavier
-                       : WeightComparisonResult::lighter;
+                    Weight::ComparisonResult::lighter)
+                       ? Weight::ComparisonResult::heavier
+                       : Weight::ComparisonResult::lighter;
 
         } else
         {
-            return WeightComparisonResult::equal;
+            return Weight::ComparisonResult::equal;
         }
     }
 }

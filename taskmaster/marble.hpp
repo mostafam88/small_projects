@@ -9,13 +9,13 @@ namespace SillyProjects
 
 struct Marble
 {
-    Marble(const int id, const WeightComparisonResult weightComparison)
+    Marble(const int id, const Weight::ComparisonResult weightComparison)
       : m_id{id}
       , m_weightComparison{weightComparison}
     {
     }
     const int                    m_id;
-    const WeightComparisonResult m_weightComparison;
+    const Weight::ComparisonResult m_weightComparison;
 };
 
 } // namespace SillyProjects

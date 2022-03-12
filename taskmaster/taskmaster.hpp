@@ -20,8 +20,8 @@ public:
     ///
     /// Creates a marble whose id is randomly chosen between 1 and
     /// #s_maxNumberOfMarbles, and its weight is either
-    /// WeightComparisonResult::lighter or WeightComparisonResult::heavier than
-    /// other marbles. Then creates a Taskmaster by passing the randomly
+    /// Weight::ComparisonResult::lighter or Weight::ComparisonResult::heavier
+    /// than other marbles. Then creates a Taskmaster by passing the randomly
     /// generated marble.
     ///
     /// \returns The generated Taskmaster.
@@ -36,13 +36,13 @@ public:
     ///       of comparison of the different sizes would tend towards collection
     ///       with more marbles.
     ///
-    /// \returns - WeightComparisonResult::equal if marbles have equal weight,
-    ///          - WeightComparisonResult::lighter if marbles in \p first are
+    /// \returns - Weight::ComparisonResult::equal if marbles have equal weight,
+    ///          - Weight::ComparisonResult::lighter if marbles in \p first are
     ///          lighter than those in \p second, and
-    ///          - WeightComparisonResult::heavier if marbles in \p first are
+    ///          - Weight::ComparisonResult::heavier if marbles in \p first are
     ///          heavier that those in \p second.
-    WeightComparisonResult compare(const std::vector<int>& first,
-                                   const std::vector<int>& second);
+    Weight::ComparisonResult compare(const std::vector<int>& first,
+                                     const std::vector<int>& second);
 
     /// \note Only for testing; therefore #m_numRemainingComparisons is set to
     /// zero to prevent continuing the game.
@@ -55,14 +55,17 @@ private:
     /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
     Taskmaster(const Marble& uniqueMarble);
 
-    /// \returns - an initialized optional with WeightComparisonResult::equal if
+    /// \returns - an initialized optional with Weight::ComparisonResult::equal
+    /// if
     ///          both marble ids are empty.
-    ///          - an initialized optional with WeightComparisonResult::lighter
-    ///          if size of first is smaller than second.
-    ///          - an initialized optional with WeightComparisonResult::lighter
-    ///          if size of first is smaller than second.
+    ///          - an initialized optional with
+    ///          Weight::ComparisonResult::lighter if size of first is smaller
+    ///          than second.
+    ///          - an initialized optional with
+    ///          Weight::ComparisonResult::lighter if size of first is smaller
+    ///          than second.
     ///          - a non-initialized optional otherwise.
-    std::optional<WeightComparisonResult>
+    std::optional<Weight::ComparisonResult>
     compareSizes(const Types::MarbleIdsPair& marbleIdsPair);
 
     /// \pre Given ids have equal size and no id is repeated among them.
@@ -71,9 +74,9 @@ private:
     ///          the first list.
     ///          - opposite of m_weightComparison of #m_uniqueMarble if its id
     ///          is found in the second list.
-    ///          - WeightComparisonResult::equal if id of #m_uniqueMarble is not
-    ///          found in any of the lists.
-    WeightComparisonResult
+    ///          - Weight::ComparisonResult::equal if id of #m_uniqueMarble is
+    ///          not found in any of the lists.
+    Weight::ComparisonResult
     safeCompare(const Types::MarbleIdsPair& marbleIdsPair);
 
     const Marble m_uniqueMarble;
