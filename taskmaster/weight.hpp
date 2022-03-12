@@ -1,5 +1,5 @@
-#ifndef WEIGHTCOMPARISONRESULT_HPP
-#define WEIGHTCOMPARISONRESULT_HPP
+#ifndef WEIGHT_HPP
+#define WEIGHT_HPP
 
 
 namespace SillyProjects

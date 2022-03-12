@@ -1,7 +1,7 @@
 #ifndef MARBLE_HPP
 #define MARBLE_HPP
 
-#include "weightComparisonResult.hpp"
+#include "weight.hpp"
 
 
 namespace SillyProjects
@@ -14,7 +14,7 @@ struct Marble
       , m_weightComparison{weightComparison}
     {
     }
-    const int                    m_id;
+    const int                      m_id;
     const Weight::ComparisonResult m_weightComparison;
 };
 
