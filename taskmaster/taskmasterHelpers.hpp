@@ -17,6 +17,16 @@ public:
     static CollectionPair
     getCollectionsWithNonRepetitiveIds(const CollectionType& first,
                                        const CollectionType& second);
+
+private:
+    static CollectionType getSortedUnique(const CollectionType& collection);
+
+    static CollectionType getIntersection(const CollectionType& first,
+                                          const CollectionType& second);
+
+    static CollectionType
+    removeIntersection(const CollectionType& collection,
+                       const CollectionType& intersection);
 };
 
 } // namespace SillyProjects
