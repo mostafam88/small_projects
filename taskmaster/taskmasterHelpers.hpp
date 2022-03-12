@@ -4,6 +4,8 @@
 #include <tuple>
 #include <vector>
 
+#include "types.hpp"
+
 namespace SillyProjects
 {
 
@@ -11,22 +13,19 @@ namespace SillyProjects
 class TaskmasterHelpers
 {
 public:
-    using CollectionType = std::vector<int>;
-    using CollectionPair = std::pair<CollectionType, CollectionType>;
-
-    static CollectionPair
-    getCollectionsWithNonRepetitiveIds(const CollectionType& first,
-                                       const CollectionType& second);
+    static Types::MarbleIdsPair
+    getNonRepetitiveMarbleIds(const Types::MarbleIds& first,
+                              const Types::MarbleIds& second);
 
 private:
-    static CollectionType getSortedUnique(const CollectionType& collection);
+    static Types::MarbleIds getSortedUnique(const Types::MarbleIds& marbleIds);
 
-    static CollectionType getIntersection(const CollectionType& first,
-                                          const CollectionType& second);
+    static Types::MarbleIds getIntersection(const Types::MarbleIds& first,
+                                            const Types::MarbleIds& second);
 
-    static CollectionType
-    removeIntersection(const CollectionType& collection,
-                       const CollectionType& intersection);
+    static Types::MarbleIds
+    removeIntersection(const Types::MarbleIds& marbleIds,
+                       const Types::MarbleIds& intersection);
 };
 
 } // namespace SillyProjects

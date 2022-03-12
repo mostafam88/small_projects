@@ -5,86 +5,81 @@
 namespace SillyProjects
 {
 
-using CollectionType = TaskmasterHelpers::CollectionType;
-
 namespace PrivateTaskMasterHelperTestHelpers
 {
-void testGetCollectionsWithNonRepetitiveIds(
-    const CollectionType& first, const CollectionType& second,
-    const CollectionType& resultFirst, const CollectionType& resultsSecond);
+void testGetNonRepetitiveMarbleIds(const Types::MarbleIds& first,
+                                   const Types::MarbleIds& second,
+                                   const Types::MarbleIds& resultFirst,
+                                   const Types::MarbleIds& resultsSecond);
 }
 
-TEST(TaskMasterHelperTest,
-     GetCollectionsWithNonRepetitiveIds_firstHasRepetitiveIds)
+TEST(TaskMasterHelperTest, GetNonRepetitiveMarbleIds_firstHasRepetitiveIds)
 {
-    const CollectionType first        = {2, 2};
-    const CollectionType second       = {4, 5};
-    const CollectionType resultFirst  = {2};
-    const CollectionType resultSecond = {4, 5};
+    const Types::MarbleIds first        = {2, 2};
+    const Types::MarbleIds second       = {4, 5};
+    const Types::MarbleIds resultFirst  = {2};
+    const Types::MarbleIds resultSecond = {4, 5};
 
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
+        first, second, resultFirst, resultSecond);
+}
+
+TEST(TaskMasterHelperTest, GetNonRepetitiveMarbleIds_secondHasRepetitiveIds)
+{
+    const Types::MarbleIds first        = {3, 1, 2};
+    const Types::MarbleIds second       = {11, 10, 11};
+    const Types::MarbleIds resultFirst  = {1, 2, 3};
+    const Types::MarbleIds resultSecond = {10, 11};
+
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
         first, second, resultFirst, resultSecond);
 }
 
 TEST(TaskMasterHelperTest,
-     GetCollectionsWithNonRepetitiveIds_secondHasRepetitiveIds)
+     GetNonRepetitiveMarbleIds_firstAndSecondShareRepetitiveId)
 {
-    const CollectionType first        = {3, 1, 2};
-    const CollectionType second       = {11, 10, 11};
-    const CollectionType resultFirst  = {1, 2, 3};
-    const CollectionType resultSecond = {10, 11};
+    const Types::MarbleIds first        = {2, 3, 1};
+    const Types::MarbleIds second       = {3, 4, 5};
+    const Types::MarbleIds resultFirst  = {1, 2};
+    const Types::MarbleIds resultSecond = {4, 5};
 
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
         first, second, resultFirst, resultSecond);
 }
 
 TEST(TaskMasterHelperTest,
-     GetCollectionsWithNonRepetitiveIds_firstAndSecondShareRepetitiveId)
+     GetNonRepetitiveMarbleIds_firstHasRepetitiveIdsAndSharesThemWithSecond)
 {
-    const CollectionType first        = {2, 3, 1};
-    const CollectionType second       = {3, 4, 5};
-    const CollectionType resultFirst  = {1, 2};
-    const CollectionType resultSecond = {4, 5};
+    const Types::MarbleIds first        = {2, 3, 2};
+    const Types::MarbleIds second       = {2, 5, 3};
+    const Types::MarbleIds resultFirst  = {};
+    const Types::MarbleIds resultSecond = {5};
 
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
         first, second, resultFirst, resultSecond);
 }
 
-TEST(
-    TaskMasterHelperTest,
-    GetCollectionsWithNonRepetitiveIds_firstHasRepetitiveIdsAndSharesThemWithSecond)
+TEST(TaskMasterHelperTest,
+     GetNonRepetitiveMarbleIds_secondHasRepetitiveIdsAndSharesThemWithFirst)
 {
-    const CollectionType first        = {2, 3, 2};
-    const CollectionType second       = {2, 5, 3};
-    const CollectionType resultFirst  = {};
-    const CollectionType resultSecond = {5};
+    const Types::MarbleIds first        = {9, 8, 7};
+    const Types::MarbleIds second       = {8, 10, 8};
+    const Types::MarbleIds resultFirst  = {7, 9};
+    const Types::MarbleIds resultSecond = {10};
 
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
-        first, second, resultFirst, resultSecond);
-}
-
-TEST(
-    TaskMasterHelperTest,
-    GetCollectionsWithNonRepetitiveIds_secondHasRepetitiveIdsAndSharesThemWithFirst)
-{
-    const CollectionType first        = {9, 8, 7};
-    const CollectionType second       = {8, 10, 8};
-    const CollectionType resultFirst  = {7, 9};
-    const CollectionType resultSecond = {10};
-
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
         first, second, resultFirst, resultSecond);
 }
 
 
-TEST(TaskMasterHelperTest, GetCollectionsWithNonRepetitiveIds_justUnsorted)
+TEST(TaskMasterHelperTest, GetNonRepetitiveMarbleIds_justUnsorted)
 {
-    const CollectionType first        = {7, 10, 6, 5};
-    const CollectionType second       = {4, 3, 12, 8, 1};
-    const CollectionType resultFirst  = {5, 6, 7, 10};
-    const CollectionType resultSecond = {1, 3, 4, 8, 12};
+    const Types::MarbleIds first        = {7, 10, 6, 5};
+    const Types::MarbleIds second       = {4, 3, 12, 8, 1};
+    const Types::MarbleIds resultFirst  = {5, 6, 7, 10};
+    const Types::MarbleIds resultSecond = {1, 3, 4, 8, 12};
 
-    PrivateTaskMasterHelperTestHelpers::testGetCollectionsWithNonRepetitiveIds(
+    PrivateTaskMasterHelperTestHelpers::testGetNonRepetitiveMarbleIds(
         first, second, resultFirst, resultSecond);
 }
 
@@ -92,13 +87,13 @@ TEST(TaskMasterHelperTest, GetCollectionsWithNonRepetitiveIds_justUnsorted)
 namespace PrivateTaskMasterHelperTestHelpers
 {
 
-void testGetCollectionsWithNonRepetitiveIds(const CollectionType& first,
-                                            const CollectionType& second,
-                                            const CollectionType& resultFirst,
-                                            const CollectionType& resultsSecond)
+void testGetNonRepetitiveMarbleIds(const Types::MarbleIds& first,
+                                   const Types::MarbleIds& second,
+                                   const Types::MarbleIds& resultFirst,
+                                   const Types::MarbleIds& resultsSecond)
 {
     const auto result =
-        TaskmasterHelpers::getCollectionsWithNonRepetitiveIds(first, second);
+        TaskmasterHelpers::getNonRepetitiveMarbleIds(first, second);
     EXPECT_EQ(result.first, resultFirst);
     EXPECT_EQ(result.second, resultsSecond);
 }

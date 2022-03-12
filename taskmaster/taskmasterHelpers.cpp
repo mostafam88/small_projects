@@ -5,9 +5,9 @@
 namespace SillyProjects
 {
 
-TaskmasterHelpers::CollectionPair
-TaskmasterHelpers::getCollectionsWithNonRepetitiveIds(
-    const CollectionType& first, const CollectionType& second)
+Types::MarbleIdsPair
+TaskmasterHelpers::getNonRepetitiveMarbleIds(const Types::MarbleIds& first,
+                                             const Types::MarbleIds& second)
 {
     const auto firstSortedAndUnique  = getSortedUnique(first);
     const auto secondSortedAndUnique = getSortedUnique(second);
@@ -23,10 +23,10 @@ TaskmasterHelpers::getCollectionsWithNonRepetitiveIds(
     return {firstWithNonRepetitiveIds, secondWithNonRepetitiveIds};
 }
 
-TaskmasterHelpers::CollectionType
-TaskmasterHelpers::getSortedUnique(const CollectionType& collection)
+Types::MarbleIds
+TaskmasterHelpers::getSortedUnique(const Types::MarbleIds& marbleIds)
 {
-    auto sortedAndUnique{collection};
+    auto sortedAndUnique{marbleIds};
     std::sort(sortedAndUnique.begin(), sortedAndUnique.end());
     const auto lastIt =
         std::unique(sortedAndUnique.begin(), sortedAndUnique.end());
@@ -36,11 +36,11 @@ TaskmasterHelpers::getSortedUnique(const CollectionType& collection)
 }
 
 
-TaskmasterHelpers::CollectionType
-TaskmasterHelpers::getIntersection(const CollectionType& first,
-                                   const CollectionType& second)
+Types::MarbleIds
+TaskmasterHelpers::getIntersection(const Types::MarbleIds& first,
+                                   const Types::MarbleIds& second)
 {
-    CollectionType intersection{};
+    Types::MarbleIds intersection{};
     std::set_intersection(first.begin(), first.end(), second.begin(),
                           second.end(), std::back_inserter(intersection));
 
@@ -48,12 +48,12 @@ TaskmasterHelpers::getIntersection(const CollectionType& first,
 }
 
 
-TaskmasterHelpers::CollectionType
-TaskmasterHelpers::removeIntersection(const CollectionType& collection,
-                                      const CollectionType& intersection)
+Types::MarbleIds
+TaskmasterHelpers::removeIntersection(const Types::MarbleIds& marbleIds,
+                                      const Types::MarbleIds& intersection)
 {
-    CollectionType collectionWithRemovedIntersection{};
-    std::set_difference(collection.begin(), collection.end(),
+    Types::MarbleIds collectionWithRemovedIntersection{};
+    std::set_difference(marbleIds.begin(), marbleIds.end(),
                         intersection.begin(), intersection.end(),
                         std::back_inserter(collectionWithRemovedIntersection));
 
