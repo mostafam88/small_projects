@@ -20,11 +20,26 @@ std::vector<int> createVectorWithGivenSizeExcludingUniqueIds(
 
 } // namespace TestHelpers
 
+class TaskmasterDataAccessor
+{
+public:
+    static Marble getUniqueMarble(const Taskmaster& taskmaster)
+    {
+        return taskmaster.m_uniqueMarble;
+    }
+
+    static Weight::ComparisonResult compare(const Taskmaster&      taskmaster,
+                                            const Types::MarbleIds first,
+                                            const Types::MarbleIds second)
+    {
+        return taskmaster.compare(first, second);
+    }
+};
 
 TEST(TaskmasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
 {
     auto       taskmaster = Taskmaster::create();
-    const auto marble     = taskmaster.getMarble();
+    const auto marble     = TaskmasterDataAccessor::getUniqueMarble(taskmaster);
 
     EXPECT_GE(marble.m_id, 1);
     EXPECT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
@@ -33,7 +48,7 @@ TEST(TaskmasterTest, idIsBetweenOneAndMaxNumberOfMarbles)
 TEST(TaskmasterTest, weightComparisonIsEitherHeavierOrLighter)
 {
     auto       taskmaster = Taskmaster::create();
-    const auto marble     = taskmaster.getMarble();
+    const auto marble     = TaskmasterDataAccessor::getUniqueMarble(taskmaster);
 
     EXPECT_TRUE(marble.m_weightComparison ==
                     Weight::ComparisonResult::heavier ||
@@ -50,7 +65,7 @@ TEST(TaskmasterTest, isItReallyUniformRandom)
     for (int i = 0; i < numberOfEvaluations; ++i)
     {
         auto       taskmaster = Taskmaster::create();
-        const auto marble     = taskmaster.getMarble();
+        const auto marble = TaskmasterDataAccessor::getUniqueMarble(taskmaster);
 
         ASSERT_GE(marble.m_id, 1);
         ASSERT_LE(marble.m_id, Taskmaster::s_maxNumberOfMarbles);
@@ -92,25 +107,29 @@ TEST(TaskmasterTest, compareWithDifferentSizes)
     {
         SCOPED_TRACE("size of first is greater than second!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({1, 2}, {4, 5, 6});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {1, 2}, {4, 5, 6});
         EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("size of first is smaller than second!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({1, 2, 3}, {10, 11});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {1, 2, 3}, {10, 11});
         EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
     {
         SCOPED_TRACE("first is empty!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({}, {4, 5, 6});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {}, {4, 5, 6});
         EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second is empty!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({1, 2, 3}, {});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {1, 2, 3}, {});
         EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
 }
@@ -119,7 +138,7 @@ TEST(TaskmasterTest, compareWithEmpty)
 {
     auto taskmaster = Taskmaster::create();
 
-    const auto result = taskmaster.compare({}, {});
+    const auto result = TaskmasterDataAccessor::compare(taskmaster, {}, {});
     EXPECT_EQ(result, Weight::ComparisonResult::equal);
 }
 
@@ -128,32 +147,38 @@ TEST(TaskmasterTest, compareWithRepetitiveIds)
     {
         SCOPED_TRACE("first has repetitive ids!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({2, 2}, {4, 5});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {2, 2}, {4, 5});
         EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second has repetitive ids!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({1, 2, 3}, {11, 10, 11});
+        const auto result     = TaskmasterDataAccessor::compare(
+                taskmaster, {1, 2, 3}, {11, 10, 11});
         EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
     {
         SCOPED_TRACE("first and second share a repetitive id!");
-        auto       taskmaster     = Taskmaster::create();
-        const auto result         = taskmaster.compare({1, 2, 3}, {3, 4, 5});
-        const auto expectedResult = taskmaster.compare({1, 2}, {4, 5});
+        auto       taskmaster = Taskmaster::create();
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {1, 2, 3}, {3, 4, 5});
+        const auto expectedResult =
+            TaskmasterDataAccessor::compare(taskmaster, {1, 2}, {4, 5});
         EXPECT_EQ(result, expectedResult);
     }
     {
         SCOPED_TRACE("first has repetitive ids and shares them with second!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({2, 3, 2}, {2, 5, 3});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {2, 3, 2}, {2, 5, 3});
         EXPECT_EQ(result, Weight::ComparisonResult::lighter);
     }
     {
         SCOPED_TRACE("second has repetitive ids and shares them with first!");
         auto       taskmaster = Taskmaster::create();
-        const auto result     = taskmaster.compare({9, 8, 7}, {8, 10, 8});
+        const auto result =
+            TaskmasterDataAccessor::compare(taskmaster, {9, 8, 7}, {8, 10, 8});
         EXPECT_EQ(result, Weight::ComparisonResult::heavier);
     }
 }
@@ -163,8 +188,9 @@ TEST(TaskmasterTest, compareWithUniqueMarbleInOneOfTheCollections)
     for (int i = 1; i <= 6; ++i)
     {
         SCOPED_TRACE(i);
-        auto       taskmaster     = Taskmaster::create();
-        const auto uniqueMarble   = taskmaster.getMarble();
+        auto       taskmaster = Taskmaster::create();
+        const auto uniqueMarble =
+            TaskmasterDataAccessor::getUniqueMarble(taskmaster);
         const auto uniqueMarbleId = uniqueMarble.m_id;
 
         const auto expectedResultFirstContainingUniqMarble =
@@ -180,12 +206,14 @@ TEST(TaskmasterTest, compareWithUniqueMarbleInOneOfTheCollections)
                 i, containingUniqMarble);
 
         const auto resultFirstContainingUniqMarble =
-            taskmaster.compare(containingUniqMarble, notContainingUniqueMarble);
+            TaskmasterDataAccessor::compare(taskmaster, containingUniqMarble,
+                                            notContainingUniqueMarble);
         EXPECT_EQ(resultFirstContainingUniqMarble,
                   expectedResultFirstContainingUniqMarble);
 
         const auto resultSecondContainingUniqMarble =
-            taskmaster.compare(notContainingUniqueMarble, containingUniqMarble);
+            TaskmasterDataAccessor::compare(
+                taskmaster, notContainingUniqueMarble, containingUniqMarble);
         EXPECT_EQ(resultSecondContainingUniqMarble,
                   expectedResultSecondContainingUniqMarble);
     }

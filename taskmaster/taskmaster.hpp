@@ -27,6 +27,11 @@ public:
     /// \returns The generated Taskmaster.
     static Taskmaster create();
 
+private:
+    /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
+    /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
+    Taskmaster(const Marble& uniqueMarble);
+
     /// Compares weight of marbles whose ids are found in \p first and
     /// \p second.
     ///
@@ -43,17 +48,6 @@ public:
     ///          heavier that those in \p second.
     Weight::ComparisonResult compare(const std::vector<int>& first,
                                      const std::vector<int>& second) const;
-
-    /// \note Only for testing; therefore #m_numRemainingComparisons is set to
-    /// zero to prevent continuing the game.
-    ///
-    /// \returns #m_uniqueMarble.
-    Marble getMarble();
-
-private:
-    /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
-    /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
-    Taskmaster(const Marble& uniqueMarble);
 
     /// \returns - an initialized optional with Weight::ComparisonResult::equal
     /// if
@@ -81,6 +75,8 @@ private:
 
     const Marble m_uniqueMarble;
     int          m_numRemainingComparisons;
+
+    friend class TaskmasterDataAccessor;
 };
 
 } // namespace SillyProjects

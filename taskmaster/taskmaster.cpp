@@ -108,12 +108,4 @@ Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const
     }
 }
 
-
-Marble Taskmaster::getMarble()
-{
-    m_numRemainingComparisons = 0;
-    return m_uniqueMarble;
-}
-
-
 } // namespace SillyProjects
