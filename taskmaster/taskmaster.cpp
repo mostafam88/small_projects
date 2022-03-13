@@ -54,9 +54,9 @@ bool Taskmaster::play(const Player& player)
             currentMarbleIdsPair, currentComparisonResult});
     }
 
-    const auto guessedMarble = player.guessUniqueMarble(previousStageResults);
+    const auto guessedMarbleId = player.guessUniqueMarbleId(previousStageResults);
 
-    return (guessedMarble == m_uniqueMarble);
+    return (guessedMarbleId == m_uniqueMarble.m_id);
 }
 
 

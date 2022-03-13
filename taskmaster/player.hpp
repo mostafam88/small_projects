@@ -16,8 +16,8 @@ public:
         std::vector<Types::MarbleIdsPairAndComparisonResult>&
             previousStagesResult) const;
 
-    Marble
-    guessUniqueMarble(std::vector<Types::MarbleIdsPairAndComparisonResult>&
+    int
+    guessUniqueMarbleId(std::vector<Types::MarbleIdsPairAndComparisonResult>&
                           previousStagesResult) const;
 
 private:

@@ -50,14 +50,14 @@ Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare(
 }
 
 
-Marble Player::guessUniqueMarble(
+int Player::guessUniqueMarbleId(
     std::vector<Types::MarbleIdsPairAndComparisonResult>& previousStagesResult)
     const
 {
     assert(previousStagesResult.size() == Taskmaster::s_maxAllowedComparisons);
     assert(previousStagesResult[0].m_marbleIdsPair == m_firstAttempt);
 
-    return Marble{0, Weight::ComparisonResult::equal};
+    return 0;
 }
 
 } // namespace SillyProjects
