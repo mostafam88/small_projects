@@ -11,7 +11,7 @@
 namespace SillyProjects
 {
 
-class Player;
+class AbstractPlayer;
 
 class Taskmaster
 {
@@ -30,7 +30,7 @@ public:
     /// \returns The generated Taskmaster.
     static Taskmaster create();
 
-    bool play(Player& player);
+    bool play(AbstractPlayer& player);
 
 private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble.

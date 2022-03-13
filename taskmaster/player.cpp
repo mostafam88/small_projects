@@ -7,30 +7,6 @@
 namespace SillyProjects
 {
 
-Types::MarbleIdsPair Player::getMarbleIdsPairToCompare()
-{
-    static_assert(Taskmaster::s_maxAllowedComparisons == 3);
-
-    if (m_previousStageResults.empty())
-    {
-        m_currentAttemptMarbleIds = getFirstMarbleIdsPairToCompare();
-    } else if (m_previousStageResults.size() == 1)
-    {
-        m_currentAttemptMarbleIds = getSecondMarbleIdsPairToCompare();
-    } else
-    {
-        assert(m_previousStageResults.size() == 2);
-        m_currentAttemptMarbleIds = getThirdMarbleIdsPairToCompare();
-    }
-
-    return m_currentAttemptMarbleIds;
-}
-
-void Player::updateStatus(const Weight::ComparisonResult comparisonResult)
-{
-    m_previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
-        m_currentAttemptMarbleIds, comparisonResult});
-}
 
 Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
 {
@@ -61,7 +37,14 @@ Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare() const
 }
 
 
-int Player::guessUniqueMarbleId() const
+void Player::updateStatus(const Types::MarbleIdsPair& currentAttemptMarbleIds,
+                          const Weight::ComparisonResult comparisonResult)
+{
+    m_previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
+        currentAttemptMarbleIds, comparisonResult});
+}
+
+int Player::getUniqueMarbleId() const
 {
     assert(m_previousStageResults.size() == 3);
     assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);

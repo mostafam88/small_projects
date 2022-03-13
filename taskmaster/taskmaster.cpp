@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <random>
 
-#include "player.hpp"
 #include "taskmaster.hpp"
 #include "taskmasterHelpers.hpp"
+#include "abstractPlayer.hpp"
 
 
 namespace SillyProjects
@@ -40,7 +40,7 @@ Taskmaster Taskmaster::create()
 }
 
 
-bool Taskmaster::play(Player& player)
+bool Taskmaster::play(AbstractPlayer& player)
 {
     for (int i = 0; i < s_maxAllowedComparisons; ++i)
     {

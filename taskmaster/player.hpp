@@ -3,6 +3,7 @@
 
 #include <map>
 
+#include "abstractPlayer.hpp"
 #include "marble.hpp"
 #include "types.hpp"
 #include "weight.hpp"
@@ -11,22 +12,22 @@
 namespace SillyProjects
 {
 
-class Player
+class Player : public AbstractPlayer
 {
-public:
-    Types::MarbleIdsPair getMarbleIdsPairToCompare();
+protected:
+    virtual Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;
 
-    void updateStatus(const Weight::ComparisonResult comparisonResult);
+    virtual Types::MarbleIdsPair getSecondMarbleIdsPairToCompare() const;
 
-    int guessUniqueMarbleId() const;
+    virtual Types::MarbleIdsPair getThirdMarbleIdsPairToCompare() const;
+
+    virtual void
+    updateStatus(const Types::MarbleIdsPair&    currentAttemptMarbleIds,
+                 const Weight::ComparisonResult comparisonResult);
+
+    virtual int getUniqueMarbleId() const;
 
 private:
-    Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;
-
-    Types::MarbleIdsPair getSecondMarbleIdsPairToCompare() const;
-
-    Types::MarbleIdsPair getThirdMarbleIdsPairToCompare() const;
-
     const Types::MarbleIdsPair m_firstAttempt{{1, 2, 3, 4}, {5, 6, 7, 8}};
     const std::map<Weight::ComparisonResult, Types::MarbleIdsPair>
         m_secondAttempt{
@@ -93,8 +94,6 @@ private:
 
     std::vector<Types::MarbleIdsPairAndComparisonResult>
         m_previousStageResults{};
-
-    Types::MarbleIdsPair m_currentAttemptMarbleIds{};
 };
 
 } // namespace SillyProjects
