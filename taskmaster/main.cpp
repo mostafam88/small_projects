@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "player.hpp"
+#include "naivePlayer.hpp"
 #include "taskmaster.hpp"
 
 int main()
 {
     std::cout << "Hello Taskmaster!\n";
 
-    SillyProjects::Player player{};
+    SillyProjects::NaivePlayer player{};
 
     auto       taskmaster = SillyProjects::Taskmaster::create();
     const bool success    = taskmaster.play(player);

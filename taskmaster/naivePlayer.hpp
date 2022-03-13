@@ -1,5 +1,5 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef NAIVEPLAYER_HPP
+#define NAIVEPLAYER_HPP
 
 #include <map>
 
@@ -12,7 +12,7 @@
 namespace SillyProjects
 {
 
-class Player : public AbstractPlayer
+class NaivePlayer : public AbstractPlayer
 {
 protected:
     virtual Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;

@@ -1,14 +1,13 @@
 #include <assert.h>
 
-#include "player.hpp"
-#include "taskmaster.hpp"
+#include "naivePlayer.hpp"
 
 
 namespace SillyProjects
 {
 
 
-Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
+Types::MarbleIdsPair NaivePlayer::getFirstMarbleIdsPairToCompare() const
 {
     assert(m_previousStageResults.empty());
 
@@ -16,7 +15,7 @@ Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
 }
 
 
-Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare() const
+Types::MarbleIdsPair NaivePlayer::getSecondMarbleIdsPairToCompare() const
 {
     assert(m_previousStageResults.size() == 1);
     assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
@@ -25,7 +24,7 @@ Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare() const
 }
 
 
-Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare() const
+Types::MarbleIdsPair NaivePlayer::getThirdMarbleIdsPairToCompare() const
 {
     assert(m_previousStageResults.size() == 2);
     assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
@@ -37,14 +36,14 @@ Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare() const
 }
 
 
-void Player::updateStatus(const Types::MarbleIdsPair& currentAttemptMarbleIds,
+void NaivePlayer::updateStatus(const Types::MarbleIdsPair& currentAttemptMarbleIds,
                           const Weight::ComparisonResult comparisonResult)
 {
     m_previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
         currentAttemptMarbleIds, comparisonResult});
 }
 
-int Player::getUniqueMarbleId() const
+int NaivePlayer::getUniqueMarbleId() const
 {
     assert(m_previousStageResults.size() == 3);
     assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
