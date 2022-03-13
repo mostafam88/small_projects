@@ -19,6 +19,16 @@ public:
     Marble
     guessUniqueMarble(std::vector<Types::MarbleIdsPairAndComparisonResult>&
                           previousStagesResult) const;
+
+private:
+    Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;
+
+    Types::MarbleIdsPair getSecondMarbleIdsPairToCompare(
+        const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const;
+
+    Types::MarbleIdsPair getThirdMarbleIdsPairToCompare(
+        const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
+        const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const;
 };
 
 } // namespace SillyProjects

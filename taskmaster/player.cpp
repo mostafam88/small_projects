@@ -1,4 +1,8 @@
+#include <assert.h>
+
 #include "player.hpp"
+#include "taskmaster.hpp"
+
 
 namespace SillyProjects
 {
@@ -8,6 +12,38 @@ Types::MarbleIdsPair Player::getMarbleIdsPairToCompare(
     const
 {
     static_assert(Taskmaster::s_maxAllowedComparisons == 3);
+
+    if (previousStagesResult.empty())
+    {
+        return getFirstMarbleIdsPairToCompare();
+    } else if (previousStagesResult.size() == 1)
+    {
+        return getSecondMarbleIdsPairToCompare(previousStagesResult[0]);
+    } else
+    {
+        assert(previousStagesResult.size() == 2);
+        return getThirdMarbleIdsPairToCompare(previousStagesResult[0],
+                                              previousStagesResult[1]);
+    }
+}
+
+Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
+{
+    return {};
+}
+
+
+Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare(
+    const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const
+{
+    return {};
+}
+
+
+Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare(
+    const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
+    const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const
+{
     return {};
 }
 
