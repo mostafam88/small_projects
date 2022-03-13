@@ -29,6 +29,8 @@ private:
     Types::MarbleIdsPair getThirdMarbleIdsPairToCompare(
         const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
         const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const;
+
+    const Types::MarbleIdsPair m_firstAttempt{{1, 2, 3, 4}, {5, 6, 7, 8}};
 };
 
 } // namespace SillyProjects

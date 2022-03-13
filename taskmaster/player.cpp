@@ -29,13 +29,14 @@ Types::MarbleIdsPair Player::getMarbleIdsPairToCompare(
 
 Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
 {
-    return {};
+    return m_firstAttempt;
 }
 
 
 Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare(
     const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const
 {
+    assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
     return {};
 }
 
@@ -44,6 +45,7 @@ Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare(
     const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
     const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const
 {
+    assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
     return {};
 }
 
@@ -53,6 +55,8 @@ Marble Player::guessUniqueMarble(
     const
 {
     assert(previousStagesResult.size() == Taskmaster::s_maxAllowedComparisons);
+    assert(previousStagesResult[0].m_marbleIdsPair == m_firstAttempt);
+
     return Marble{0, Weight::ComparisonResult::equal};
 }
 
