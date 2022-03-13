@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <random>
 
+#include "player.hpp"
 #include "taskmaster.hpp"
 #include "taskmasterHelpers.hpp"
-#include "player.hpp"
 
 
 namespace SillyProjects
@@ -15,7 +15,6 @@ const int Taskmaster::s_maxAllowedComparisons;
 
 Taskmaster::Taskmaster(const Marble& uniqueMarble)
   : m_uniqueMarble{uniqueMarble}
-  , m_numRemainingComparisons{s_maxAllowedComparisons}
 {
 }
 
@@ -43,7 +42,21 @@ Taskmaster Taskmaster::create()
 
 bool Taskmaster::play(const Player& player)
 {
-    return false;
+    std::vector<Types::MarbleIdsPairAndComparisonResult> previousStageResults{};
+
+    for (int i = 0; i < s_maxAllowedComparisons; ++i)
+    {
+        const auto currentMarbleIdsPair =
+            player.getMarbleIdsPairToCompare(previousStageResults);
+        const auto currentComparisonResult =
+            compare(currentMarbleIdsPair.first, currentMarbleIdsPair.second);
+        previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
+            currentMarbleIdsPair, currentComparisonResult});
+    }
+
+    const auto guessedMarble = player.guessUniqueMarble(previousStageResults);
+
+    return (guessedMarble == m_uniqueMarble);
 }
 
 

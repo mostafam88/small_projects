@@ -33,8 +33,7 @@ public:
     bool play(const Player& player);
 
 private:
-    /// Assigns \p uniqueMarble to #m_uniqueMarble and sets
-    /// #m_numRemainingComparisons to #s_maxAllowedComparisons.
+    /// Assigns \p uniqueMarble to #m_uniqueMarble.
     Taskmaster(const Marble& uniqueMarble);
 
     /// Compares weight of marbles whose ids are found in \p first and
@@ -79,7 +78,6 @@ private:
     safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const;
 
     const Marble m_uniqueMarble;
-    int          m_numRemainingComparisons;
 
     friend class TaskmasterDataAccessor;
 };

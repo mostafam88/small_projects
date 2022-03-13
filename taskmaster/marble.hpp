@@ -14,6 +14,13 @@ struct Marble
       , m_weightComparison{weightComparison}
     {
     }
+
+    bool operator==(const Marble& other) const
+    {
+        return (this->m_id == other.m_id) &&
+               (this->m_weightComparison == other.m_weightComparison);
+    }
+
     const int                      m_id;
     const Weight::ComparisonResult m_weightComparison;
 };
