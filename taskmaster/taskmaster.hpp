@@ -7,8 +7,11 @@
 #include "marble.hpp"
 #include "types.hpp"
 
+
 namespace SillyProjects
 {
+
+class Player;
 
 class Taskmaster
 {
@@ -26,6 +29,8 @@ public:
     ///
     /// \returns The generated Taskmaster.
     static Taskmaster create();
+
+    bool play(const Player& player);
 
 private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble and sets

@@ -3,6 +3,7 @@
 
 #include "taskmaster.hpp"
 #include "taskmasterHelpers.hpp"
+#include "player.hpp"
 
 
 namespace SillyProjects
@@ -37,6 +38,12 @@ Taskmaster Taskmaster::create()
     const Marble uniqueMarble{id, weightComparison};
 
     return Taskmaster(uniqueMarble);
+}
+
+
+bool Taskmaster::play(const Player& player)
+{
+    return false;
 }
 
 
