@@ -41,8 +41,8 @@ Taskmaster Taskmaster::create()
 
 
 Weight::ComparisonResult
-Taskmaster::compare(const std::vector<int>& first,
-                    const std::vector<int>& second) const
+Taskmaster::compare(const Types::MarbleIds& first,
+                    const Types::MarbleIds& second) const
 {
     const auto marbleIdsPair =
         TaskmasterHelpers::getNonRepetitiveMarbleIds(first, second);

@@ -46,8 +46,8 @@ private:
     ///          lighter than those in \p second, and
     ///          - Weight::ComparisonResult::heavier if marbles in \p first are
     ///          heavier that those in \p second.
-    Weight::ComparisonResult compare(const std::vector<int>& first,
-                                     const std::vector<int>& second) const;
+    Weight::ComparisonResult compare(const Types::MarbleIds& first,
+                                     const Types::MarbleIds& second) const;
 
     /// \returns - an initialized optional with Weight::ComparisonResult::equal
     /// if

@@ -11,12 +11,12 @@ namespace SillyProjects
 namespace TestHelpers
 {
 
-std::vector<int>
+Types::MarbleIds
 createVectorWithGivenSizeIncludingUniqueId(const std::size_t size,
                                            const int         includingId);
 
-std::vector<int> createVectorWithGivenSizeExcludingUniqueIds(
-    const std::size_t size, const std::vector<int>& excludingIds);
+Types::MarbleIds createVectorWithGivenSizeExcludingUniqueIds(
+    const std::size_t size, const Types::MarbleIds& excludingIds);
 
 } // namespace TestHelpers
 
@@ -222,7 +222,7 @@ TEST(TaskmasterTest, compareWithUniqueMarbleInOneOfTheCollections)
 namespace TestHelpers
 {
 
-std::vector<int>
+Types::MarbleIds
 createVectorWithGivenSizeIncludingUniqueId(const std::size_t size,
                                            const int         includingId)
 {
@@ -239,10 +239,10 @@ createVectorWithGivenSizeIncludingUniqueId(const std::size_t size,
     }
 }
 
-std::vector<int> createVectorWithGivenSizeExcludingUniqueIds(
-    const std::size_t size, const std::vector<int>& excludingIds)
+Types::MarbleIds createVectorWithGivenSizeExcludingUniqueIds(
+    const std::size_t size, const Types::MarbleIds& excludingIds)
 {
-    std::vector<int> output{};
+    Types::MarbleIds output{};
     for (int i = 1;
          (i <= Taskmaster::s_maxNumberOfMarbles) && (output.size() < size); ++i)
     {
