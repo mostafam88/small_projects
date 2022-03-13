@@ -37,7 +37,7 @@ Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare(
     const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const
 {
     assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
-    return {};
+    return m_secondAttempt.at(firstStageResult.m_comparisonResult);
 }
 
 
@@ -46,7 +46,10 @@ Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare(
     const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const
 {
     assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
-    return {};
+    assert(secondStageResult.m_marbleIdsPair ==
+           m_secondAttempt.at(firstStageResult.m_comparisonResult));
+    return m_thirdAttempt.at(firstStageResult.m_comparisonResult)
+        .at(secondStageResult.m_comparisonResult);
 }
 
 
@@ -56,8 +59,15 @@ int Player::guessUniqueMarbleId(
 {
     assert(previousStagesResult.size() == Taskmaster::s_maxAllowedComparisons);
     assert(previousStagesResult[0].m_marbleIdsPair == m_firstAttempt);
+    assert(previousStagesResult[1].m_marbleIdsPair ==
+           m_secondAttempt.at(previousStagesResult[0].m_comparisonResult));
+    assert(previousStagesResult[2].m_marbleIdsPair ==
+           (m_thirdAttempt.at(previousStagesResult[0].m_comparisonResult)
+                .at(previousStagesResult[1].m_comparisonResult)));
 
-    return 0;
+    return m_finalGuess.at(previousStagesResult[0].m_comparisonResult)
+        .at(previousStagesResult[1].m_comparisonResult)
+        .at(previousStagesResult[2].m_comparisonResult);
 }
 
 } // namespace SillyProjects

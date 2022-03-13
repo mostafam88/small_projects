@@ -9,10 +9,11 @@ int main()
 
     const SillyProjects::Player player{};
 
-    auto taskmaster = SillyProjects::Taskmaster::create();
-    const bool success = taskmaster.play(player);
+    auto       taskmaster = SillyProjects::Taskmaster::create();
+    const bool success    = taskmaster.play(player);
 
-    std::cout << "The game finished " << (success ? "":"un") << "successfully!\n";
+    std::cout << "The game finished " << (success ? "" : "un")
+              << "successfully!\n";
 
-    return success ? EXIT_SUCCESS: EXIT_FAILURE;
+    return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }
