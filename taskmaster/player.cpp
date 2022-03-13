@@ -7,67 +7,73 @@
 namespace SillyProjects
 {
 
-Types::MarbleIdsPair Player::getMarbleIdsPairToCompare(
-    std::vector<Types::MarbleIdsPairAndComparisonResult>& previousStagesResult)
-    const
+Types::MarbleIdsPair Player::getMarbleIdsPairToCompare()
 {
     static_assert(Taskmaster::s_maxAllowedComparisons == 3);
 
-    if (previousStagesResult.empty())
+    if (m_previousStageResults.empty())
     {
-        return getFirstMarbleIdsPairToCompare();
-    } else if (previousStagesResult.size() == 1)
+        m_currentAttemptMarbleIds = getFirstMarbleIdsPairToCompare();
+    } else if (m_previousStageResults.size() == 1)
     {
-        return getSecondMarbleIdsPairToCompare(previousStagesResult[0]);
+        m_currentAttemptMarbleIds = getSecondMarbleIdsPairToCompare();
     } else
     {
-        assert(previousStagesResult.size() == 2);
-        return getThirdMarbleIdsPairToCompare(previousStagesResult[0],
-                                              previousStagesResult[1]);
+        assert(m_previousStageResults.size() == 2);
+        m_currentAttemptMarbleIds = getThirdMarbleIdsPairToCompare();
     }
+
+    return m_currentAttemptMarbleIds;
+}
+
+void Player::updateStatus(const Weight::ComparisonResult comparisonResult)
+{
+    m_previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
+        m_currentAttemptMarbleIds, comparisonResult});
 }
 
 Types::MarbleIdsPair Player::getFirstMarbleIdsPairToCompare() const
 {
+    assert(m_previousStageResults.empty());
+
     return m_firstAttempt;
 }
 
 
-Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare(
-    const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const
+Types::MarbleIdsPair Player::getSecondMarbleIdsPairToCompare() const
 {
-    assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
-    return m_secondAttempt.at(firstStageResult.m_comparisonResult);
+    assert(m_previousStageResults.size() == 1);
+    assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
+
+    return m_secondAttempt.at(m_previousStageResults[0].m_comparisonResult);
 }
 
 
-Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare(
-    const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
-    const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const
+Types::MarbleIdsPair Player::getThirdMarbleIdsPairToCompare() const
 {
-    assert(firstStageResult.m_marbleIdsPair == m_firstAttempt);
-    assert(secondStageResult.m_marbleIdsPair ==
-           m_secondAttempt.at(firstStageResult.m_comparisonResult));
-    return m_thirdAttempt.at(firstStageResult.m_comparisonResult)
-        .at(secondStageResult.m_comparisonResult);
+    assert(m_previousStageResults.size() == 2);
+    assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
+    assert(m_previousStageResults[1].m_marbleIdsPair ==
+           m_secondAttempt.at(m_previousStageResults[0].m_comparisonResult));
+
+    return m_thirdAttempt.at(m_previousStageResults[0].m_comparisonResult)
+        .at(m_previousStageResults[1].m_comparisonResult);
 }
 
 
-int Player::guessUniqueMarbleId(
-    std::vector<Types::MarbleIdsPairAndComparisonResult>& previousStagesResult)
-    const
+int Player::guessUniqueMarbleId() const
 {
-    assert(previousStagesResult.size() == Taskmaster::s_maxAllowedComparisons);
-    assert(previousStagesResult[0].m_marbleIdsPair == m_firstAttempt);
-    assert(previousStagesResult[1].m_marbleIdsPair ==
-           m_secondAttempt.at(previousStagesResult[0].m_comparisonResult));
-    assert(previousStagesResult[2].m_marbleIdsPair ==
-           (m_thirdAttempt.at(previousStagesResult[0].m_comparisonResult)
-                .at(previousStagesResult[1].m_comparisonResult)));
+    assert(m_previousStageResults.size() == 3);
+    assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);
+    assert(m_previousStageResults[1].m_marbleIdsPair ==
+           m_secondAttempt.at(m_previousStageResults[0].m_comparisonResult));
+    assert(m_previousStageResults[2].m_marbleIdsPair ==
+           (m_thirdAttempt.at(m_previousStageResults[0].m_comparisonResult)
+                .at(m_previousStageResults[1].m_comparisonResult)));
 
-    return m_finalGuess.at(previousStagesResult[0].m_comparisonResult)
-        .at(previousStagesResult[1].m_comparisonResult)
-        .at(previousStagesResult[2].m_comparisonResult);
+    return m_finalGuess.at(m_previousStageResults[0].m_comparisonResult)
+        .at(m_previousStageResults[1].m_comparisonResult)
+        .at(m_previousStageResults[2].m_comparisonResult);
 }
 
 } // namespace SillyProjects

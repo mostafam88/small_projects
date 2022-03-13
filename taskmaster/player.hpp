@@ -14,23 +14,18 @@ namespace SillyProjects
 class Player
 {
 public:
-    Types::MarbleIdsPair getMarbleIdsPairToCompare(
-        std::vector<Types::MarbleIdsPairAndComparisonResult>&
-            previousStagesResult) const;
+    Types::MarbleIdsPair getMarbleIdsPairToCompare();
 
-    int
-    guessUniqueMarbleId(std::vector<Types::MarbleIdsPairAndComparisonResult>&
-                            previousStagesResult) const;
+    void updateStatus(const Weight::ComparisonResult comparisonResult);
+
+    int guessUniqueMarbleId() const;
 
 private:
     Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;
 
-    Types::MarbleIdsPair getSecondMarbleIdsPairToCompare(
-        const Types::MarbleIdsPairAndComparisonResult& firstStageResult) const;
+    Types::MarbleIdsPair getSecondMarbleIdsPairToCompare() const;
 
-    Types::MarbleIdsPair getThirdMarbleIdsPairToCompare(
-        const Types::MarbleIdsPairAndComparisonResult& firstStageResult,
-        const Types::MarbleIdsPairAndComparisonResult& secondStageResult) const;
+    Types::MarbleIdsPair getThirdMarbleIdsPairToCompare() const;
 
     const Types::MarbleIdsPair m_firstAttempt{{1, 2, 3, 4}, {5, 6, 7, 8}};
     const std::map<Weight::ComparisonResult, Types::MarbleIdsPair>
@@ -95,6 +90,11 @@ private:
                         {{Weight::ComparisonResult::lighter, 2},
                          {Weight::ComparisonResult::equal, 6},
                          {Weight::ComparisonResult::heavier, 1}}}}}};
+
+    std::vector<Types::MarbleIdsPairAndComparisonResult>
+        m_previousStageResults{};
+
+    Types::MarbleIdsPair m_currentAttemptMarbleIds{};
 };
 
 } // namespace SillyProjects

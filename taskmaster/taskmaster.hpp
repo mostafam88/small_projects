@@ -30,7 +30,7 @@ public:
     /// \returns The generated Taskmaster.
     static Taskmaster create();
 
-    bool play(const Player& player);
+    bool play(Player& player);
 
 private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble.

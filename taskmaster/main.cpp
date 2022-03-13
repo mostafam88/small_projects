@@ -7,7 +7,7 @@ int main()
 {
     std::cout << "Hello Taskmaster!\n";
 
-    const SillyProjects::Player player{};
+    SillyProjects::Player player{};
 
     auto       taskmaster = SillyProjects::Taskmaster::create();
     const bool success    = taskmaster.play(player);

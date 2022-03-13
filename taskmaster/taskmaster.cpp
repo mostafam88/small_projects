@@ -40,21 +40,17 @@ Taskmaster Taskmaster::create()
 }
 
 
-bool Taskmaster::play(const Player& player)
+bool Taskmaster::play(Player& player)
 {
-    std::vector<Types::MarbleIdsPairAndComparisonResult> previousStageResults{};
-
     for (int i = 0; i < s_maxAllowedComparisons; ++i)
     {
-        const auto currentMarbleIdsPair =
-            player.getMarbleIdsPairToCompare(previousStageResults);
+        const auto currentMarbleIdsPair = player.getMarbleIdsPairToCompare();
         const auto currentComparisonResult =
             compare(currentMarbleIdsPair.first, currentMarbleIdsPair.second);
-        previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
-            currentMarbleIdsPair, currentComparisonResult});
+        player.updateStatus(currentComparisonResult);
     }
 
-    const auto guessedMarbleId = player.guessUniqueMarbleId(previousStageResults);
+    const auto guessedMarbleId = player.guessUniqueMarbleId();
 
     return (guessedMarbleId == m_uniqueMarble.m_id);
 }
