@@ -30,7 +30,7 @@ public:
     /// \returns The generated Taskmaster.
     static Taskmaster create();
 
-    bool play(AbstractPlayer& player);
+    bool play(AbstractPlayer& player, std::ostream& os);
 
 private:
     /// Assigns \p uniqueMarble to #m_uniqueMarble.
@@ -76,6 +76,11 @@ private:
     ///          not found in any of the lists.
     Weight::ComparisonResult
     safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const;
+
+    static void print(const int                      attempt,
+                      const Types::MarbleIdsPair&    marbleIdsPair,
+                      const Weight::ComparisonResult comparisonResult,
+                      std::ostream&                  os);
 
     const Marble m_uniqueMarble;
 

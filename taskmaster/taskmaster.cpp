@@ -1,9 +1,12 @@
 #include <algorithm>
+#include <assert.h>
+#include <iostream>
+#include <iterator>
 #include <random>
 
+#include "abstractPlayer.hpp"
 #include "taskmaster.hpp"
 #include "taskmasterHelpers.hpp"
-#include "abstractPlayer.hpp"
 
 
 namespace SillyProjects
@@ -40,17 +43,30 @@ Taskmaster Taskmaster::create()
 }
 
 
-bool Taskmaster::play(AbstractPlayer& player)
+bool Taskmaster::play(AbstractPlayer& player, std::ostream& os)
 {
-    for (int i = 0; i < s_maxAllowedComparisons; ++i)
+    os << std::string(90, '=')
+       << "\nTaskmaster: Player wants to find marble with id "
+       << m_uniqueMarble.m_id << " which is "
+       << ((m_uniqueMarble.m_weightComparison ==
+            Weight::ComparisonResult::heavier)
+               ? "heavier"
+               : "lighter")
+       << " than other marbles.\n"
+       << std::string(90, '-') << '\n';
+    for (int i = 1; i <= s_maxAllowedComparisons; ++i)
     {
         const auto currentMarbleIdsPair = player.getMarbleIdsPairToCompare();
         const auto currentComparisonResult =
             compare(currentMarbleIdsPair.first, currentMarbleIdsPair.second);
+        print(i, currentMarbleIdsPair, currentComparisonResult, os);
         player.updateStatus(currentComparisonResult);
     }
 
     const auto guessedMarbleId = player.guessUniqueMarbleId();
+    os << std::string(90, '-') << "\nTaskmaster: Player guessed id is "
+       << guessedMarbleId << ".\n"
+       << std::string(90, '=') << '\n';
 
     return (guessedMarbleId == m_uniqueMarble.m_id);
 }
@@ -122,6 +138,57 @@ Taskmaster::safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const
             return Weight::ComparisonResult::equal;
         }
     }
+}
+
+void Taskmaster::print(const int                      attempt,
+                       const Types::MarbleIdsPair&    marbleIdsPair,
+                       const Weight::ComparisonResult comparisonResult,
+                       std::ostream&                  os)
+{
+    const auto weightComparisonResultToChar =
+        [](const Weight::ComparisonResult comparisonResult) -> char {
+        if (comparisonResult == Weight::ComparisonResult::lighter)
+        {
+            return '<';
+        } else if (comparisonResult == Weight::ComparisonResult::equal)
+        {
+            return '=';
+        } else
+        {
+            assert(comparisonResult == Weight::ComparisonResult::heavier);
+            return '>';
+        }
+    };
+
+    const auto intToString = [](const int i) -> std::string {
+        assert((i > 0) && (i < 99));
+        std::string s = std::to_string(i);
+        return (i > 9) ? s : " " + s;
+    };
+
+    const auto intVectorToString =
+        [&intToString](const std::vector<int> v) -> std::string {
+        assert(v.size() <= 4);
+        std::string s;
+        for (const auto i : v)
+        {
+            s += intToString(i) + " ";
+        }
+        if (v.size() == 4)
+        {
+            return s;
+        } else
+        {
+            assert(s.size() < 12);
+            std::string padding(12 - s.size(), ' ');
+            return s + padding;
+        }
+    };
+
+    os << "   Attempt " << attempt << ":  {"
+       << intVectorToString(marbleIdsPair.first) << "} "
+       << weightComparisonResultToChar(comparisonResult) << " {"
+       << intVectorToString(marbleIdsPair.second) << "}\n";
 }
 
 } // namespace SillyProjects

@@ -13,13 +13,15 @@ TEST(NaivePlayerTest, alwaysSuccess)
 {
     std::vector<int> guessedValues{};
     int numRuns{0};
+    std::stringbuf irrelevantBuffer;
+    std::ostream ignorantOstream(&irrelevantBuffer);
     while (guessedValues.size() < Taskmaster::s_maxNumberOfMarbles)
     {
         ++numRuns;
         SillyProjects::NaivePlayer player{};
 
         auto       taskmaster = SillyProjects::Taskmaster::create();
-        const bool success    = taskmaster.play(player);
+        const bool success    = taskmaster.play(player, ignorantOstream);
         EXPECT_TRUE(success);
 
         const int currentGuess = player.guessUniqueMarbleId();
