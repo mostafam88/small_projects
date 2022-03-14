@@ -1,6 +1,9 @@
 #ifndef WEIGHT_HPP
 #define WEIGHT_HPP
 
+#include<assert.h>
+#include<ostream>
+
 
 namespace SillyProjects
 {
@@ -15,6 +18,9 @@ enum class ComparisonResult : int
 };
 
 ComparisonResult oppositeOf(const ComparisonResult given);
+
+std::ostream& operator<<(std::ostream&          os,
+                         const ComparisonResult comparisonResult);
 
 } // namespace Weight
 } // namespace SillyProjects

@@ -77,10 +77,14 @@ private:
     Weight::ComparisonResult
     safeCompare(const Types::MarbleIdsPair& marbleIdsPair) const;
 
-    static void print(const int                      attempt,
-                      const Types::MarbleIdsPair&    marbleIdsPair,
-                      const Weight::ComparisonResult comparisonResult,
-                      std::ostream&                  os);
+    void logPlayPrologue(std::ostream& os) const;
+
+    void logPlayAttempt(const int                      attempt,
+                        const Types::MarbleIdsPair&    marbleIdsPair,
+                        const Weight::ComparisonResult comparisonResult,
+                        std::ostream&                  os) const;
+
+    void logPlayEnding(const int guessedMarbleId, std::ostream& os) const;
 
     const Marble m_uniqueMarble;
 

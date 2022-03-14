@@ -17,5 +17,23 @@ ComparisonResult oppositeOf(const ComparisonResult given)
                                                 : ComparisonResult::heavier;
 }
 
+std::ostream& operator<<(std::ostream&          os,
+                         const ComparisonResult comparisonResult)
+{
+    if (comparisonResult == Weight::ComparisonResult::lighter)
+    {
+        os << '<';
+    } else if (comparisonResult == Weight::ComparisonResult::equal)
+    {
+        os << '=';
+    } else
+    {
+        assert(comparisonResult == Weight::ComparisonResult::heavier);
+        os << '>';
+    }
+
+    return os;
+}
+
 } // namespace Weight
 } // namespace SillyProjects
