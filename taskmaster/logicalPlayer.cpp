@@ -77,6 +77,14 @@ void LogicalPlayer::updateStatus(
                                     currentAttemptMarbleIds.first),
                      Weight::ComparisonResult::heavier);
     }
+
+    if (!m_playingStrategy.has_value())
+    {
+        m_playingStrategy =
+            (comparisonResult == Weight::ComparisonResult::equal)
+                ? PlayingStrategy::firstEqual
+                : PlayingStrategy::firstUnqual;
+    }
 }
 
 

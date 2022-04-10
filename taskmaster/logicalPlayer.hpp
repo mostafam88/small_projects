@@ -1,4 +1,5 @@
 #include <array>
+#include <optional>
 
 #include "abstractPlayer.hpp"
 #include "taskmaster.hpp"
@@ -31,6 +32,12 @@ private:
         heavier
     };
 
+    enum class PlayingStrategy : uint
+    {
+        firstEqual,
+        firstUnqual
+    };
+
     void setMarbleStatus(const Types::MarbleIds& marbleIds,
                          const MarbleStatus      marbleStatus);
 
@@ -39,6 +46,8 @@ private:
 
     std::array<MarbleStatus, Taskmaster::s_maxNumberOfMarbles> m_marblesStatus{
         {MarbleStatus::unknown}};
+
+    std::optional<PlayingStrategy> m_playingStrategy{};
 };
 
 } // namespace SillyProjects
