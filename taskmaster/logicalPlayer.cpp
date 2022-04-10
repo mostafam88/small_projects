@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <random>
+#include <set>
 
 #include "logicalPlayer.hpp"
 #include "taskmaster.hpp"
@@ -15,33 +16,31 @@ Types::MarbleIdsPair LogicalPlayer::getFirstMarbleIdsPairToCompare() const
     std::mt19937                       rng(rd());
     std::uniform_int_distribution<int> uni(1, Taskmaster::s_maxNumberOfMarbles);
 
+
+    std::set<int> first_set{};
+    std::set<int> second_set{};
+    while ((first_set.size() < 4))
+    {
+        const int id = uni(rng);
+        first_set.insert(id);
+    }
+
+    while (second_set.size() < 4)
+    {
+        const int  id    = uni(rng);
+        const bool isNew = (first_set.find(id) == first_set.end());
+        if (isNew)
+        {
+            second_set.insert(id);
+        }
+    }
+
+
     Types::MarbleIds first{};
     Types::MarbleIds second{};
-    while ((first.size() < 4))
-    {
-        const int  id = uni(rng);
-        const bool isNew =
-            (first.end() == std::find(first.begin(), first.end(), id));
-        if (isNew)
-        {
-            first.push_back(id);
-        }
-    }
 
-    while (second.size() < 4)
-    {
-        const int  id = uni(rng);
-        const bool isNew =
-            (first.end() == std::find(first.begin(), first.end(), id)) &&
-            (second.end() == std::find(second.begin(), second.end(), id));
-        if (isNew)
-        {
-            second.push_back(id);
-        }
-    }
-
-    std::sort(first.begin(), first.end());
-    std::sort(first.begin(), first.end());
+    std::copy(first_set.begin(), first_set.end(), std::back_inserter(first));
+    std::copy(second_set.begin(), second_set.end(), std::back_inserter(second));
 
     return Types::MarbleIdsPair{first, second};
 }
