@@ -1,3 +1,6 @@
+#ifndef LOGICALPLAYER_HPP
+#define LOGICALPLAYER_HPP
+
 #include <array>
 #include <optional>
 
@@ -51,3 +54,6 @@ private:
 };
 
 } // namespace SillyProjects
+
+
+#endif
