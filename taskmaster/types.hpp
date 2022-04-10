@@ -12,7 +12,8 @@ namespace SillyProjects
 namespace Types
 {
 
-using MarbleIds     = std::vector<int>;
+using Id            = uint;
+using MarbleIds     = std::vector<Id>;
 using MarbleIdsPair = std::pair<MarbleIds, MarbleIds>;
 
 std::ostream& operator<<(std::ostream& os, const Types::MarbleIds& MarbleIds);

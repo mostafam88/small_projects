@@ -13,7 +13,7 @@ namespace TestHelpers
 
 Types::MarbleIds
 createVectorWithGivenSizeIncludingUniqueId(const std::size_t size,
-                                           const int         includingId);
+                                           const Types::Id   includingId);
 
 Types::MarbleIds createVectorWithGivenSizeExcludingUniqueIds(
     const std::size_t size, const Types::MarbleIds& excludingIds);
@@ -224,7 +224,7 @@ namespace TestHelpers
 
 Types::MarbleIds
 createVectorWithGivenSizeIncludingUniqueId(const std::size_t size,
-                                           const int         includingId)
+                                           const Types::Id   includingId)
 {
     assert(size > 0);
     if (size == 1)

@@ -112,9 +112,9 @@ LogicalPlayer::getMarbleIdsWithStatus(const MarbleStatus marbleStatus) const
     return result;
 }
 
-int LogicalPlayer::getUniqueMarbleId() const
+Types::Id LogicalPlayer::getUniqueMarbleId() const
 {
-    return -1;
+    return 999;
 }
 
 } // namespace SillyProjects

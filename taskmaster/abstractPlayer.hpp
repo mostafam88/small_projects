@@ -32,7 +32,7 @@ public:
     // Asserts that #m_numberOfCompletedAttempts is 3,
     // #getMarbleIdsPairToCompare and #updateStatus are called sufficient times,
     // and calls abstract function #getUniqueMarbleId.
-    int guessUniqueMarbleId() const;
+    Types::Id guessUniqueMarbleId() const;
 
 protected:
     virtual Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const  = 0;
@@ -43,7 +43,7 @@ protected:
     updateStatus(const Types::MarbleIdsPair&    currentAttemptMarbleIds,
                  const Weight::ComparisonResult comparisonResult) = 0;
 
-    virtual int getUniqueMarbleId() const = 0;
+    virtual Types::Id getUniqueMarbleId() const = 0;
 
 private:
     /// Returns the return value of proper abstract getter depending on

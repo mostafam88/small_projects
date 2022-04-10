@@ -28,8 +28,8 @@ Taskmaster Taskmaster::create()
     std::random_device rd;
     std::mt19937       rng(rd());
 
-    std::uniform_int_distribution<int> uni(1, s_maxNumberOfMarbles);
-    const int                          id = uni(rng);
+    std::uniform_int_distribution<Types::Id> uni(1, s_maxNumberOfMarbles);
+    const Types::Id                          id = uni(rng);
 
     std::uniform_int_distribution<int> uni2(1, 2);
     const auto                         randomBinary     = uni2(rng);
@@ -154,8 +154,8 @@ void Taskmaster::logPlayAttempt(const int                      attempt,
 }
 
 
-void Taskmaster::logPlayEnding(const int     guessedMarbleId,
-                               std::ostream& os) const
+void Taskmaster::logPlayEnding(const Types::Id guessedMarbleId,
+                               std::ostream&   os) const
 {
     os << std::string(90, '-') << "\nTaskmaster: Player guessed id is "
        << guessedMarbleId << ".\n"

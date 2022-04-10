@@ -25,7 +25,7 @@ protected:
     updateStatus(const Types::MarbleIdsPair&    currentAttemptMarbleIds,
                  const Weight::ComparisonResult comparisonResult);
 
-    virtual int getUniqueMarbleId() const;
+    virtual Types::Id getUniqueMarbleId() const;
 
 private:
     const Types::MarbleIdsPair m_firstAttempt{{1, 2, 3, 4}, {5, 6, 7, 8}};
@@ -51,7 +51,7 @@ private:
 
     const std::map<Weight::ComparisonResult,
                    std::map<Weight::ComparisonResult,
-                            std::map<Weight::ComparisonResult, int>>>
+                            std::map<Weight::ComparisonResult, Types::Id>>>
         m_finalGuess{{Weight::ComparisonResult::lighter,
                       {{Weight::ComparisonResult::lighter,
                         {{Weight::ComparisonResult::lighter, 1},

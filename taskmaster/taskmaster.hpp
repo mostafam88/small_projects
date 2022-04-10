@@ -84,7 +84,7 @@ private:
                         const Weight::ComparisonResult comparisonResult,
                         std::ostream&                  os) const;
 
-    void logPlayEnding(const int guessedMarbleId, std::ostream& os) const;
+    void logPlayEnding(const Types::Id guessedMarbleId, std::ostream& os) const;
 
     const Marble m_uniqueMarble;
 

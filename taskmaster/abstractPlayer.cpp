@@ -44,7 +44,7 @@ void AbstractPlayer::updateStatus(
 }
 
 
-int AbstractPlayer::guessUniqueMarbleId() const
+Types::Id AbstractPlayer::guessUniqueMarbleId() const
 {
     assert(m_numberOfCompletedAttempts == 3);
     return getUniqueMarbleId();

@@ -24,7 +24,7 @@ protected:
     updateStatus(const Types::MarbleIdsPair&    currentAttemptMarbleIds,
                  const Weight::ComparisonResult comparisonResult);
 
-    virtual int getUniqueMarbleId() const;
+    virtual Types::Id getUniqueMarbleId() const;
 
 private:
     enum class MarbleStatus : uint

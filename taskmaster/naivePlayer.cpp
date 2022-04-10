@@ -36,14 +36,15 @@ Types::MarbleIdsPair NaivePlayer::getThirdMarbleIdsPairToCompare() const
 }
 
 
-void NaivePlayer::updateStatus(const Types::MarbleIdsPair& currentAttemptMarbleIds,
-                          const Weight::ComparisonResult comparisonResult)
+void NaivePlayer::updateStatus(
+    const Types::MarbleIdsPair&    currentAttemptMarbleIds,
+    const Weight::ComparisonResult comparisonResult)
 {
     m_previousStageResults.push_back(Types::MarbleIdsPairAndComparisonResult{
         currentAttemptMarbleIds, comparisonResult});
 }
 
-int NaivePlayer::getUniqueMarbleId() const
+Types::Id NaivePlayer::getUniqueMarbleId() const
 {
     assert(m_previousStageResults.size() == 3);
     assert(m_previousStageResults[0].m_marbleIdsPair == m_firstAttempt);

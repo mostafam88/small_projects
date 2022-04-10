@@ -3,7 +3,8 @@
 namespace SillyProjects
 {
 
-Marble::Marble(const int id, const Weight::ComparisonResult weightComparison)
+Marble::Marble(const Types::Id                id,
+               const Weight::ComparisonResult weightComparison)
   : m_id{id}
   , m_weightComparison{weightComparison}
 {
