@@ -14,8 +14,13 @@ namespace SillyProjects
 class LogicalPlayer : public AbstractPlayer
 {
 protected:
+    /// \returns Two sets of randomly selected ids from the #m_marblesStatus
+    ///          with MarbleStatus::unkown.
     virtual Types::MarbleIdsPair getFirstMarbleIdsPairToCompare() const;
 
+    /// \returns #getSecondMarbleIdsPairAssumingFirstEqual if #m_playingStrategy
+    ///          is PlayingStrategy::firstEqual, otherwise
+    ///          #getSecondMarbleIdsPairAssumingFirstUnequal
     virtual Types::MarbleIdsPair getSecondMarbleIdsPairToCompare() const;
 
     virtual Types::MarbleIdsPair getThirdMarbleIdsPairToCompare() const;
@@ -27,6 +32,12 @@ protected:
     virtual Types::Id getUniqueMarbleId() const;
 
 private:
+    /// \returns Two sets of randomly selected ids with size
+    ///          \p desiredMarbleIdsSize from the #m_marblesStatus with
+    ///          MarbleStatus::unkown.
+    Types::MarbleIdsPair createMarbleIdsPairFromUnknownWithSize(
+        const uint desiredMarbleIdsSize) const;
+
     enum class MarbleStatus : uint
     {
         unknown,

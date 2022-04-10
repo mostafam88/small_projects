@@ -1,6 +1,5 @@
 #include <algorithm>
-#include <random>
-#include <set>
+#include <assert.h>
 
 #include "logicalPlayer.hpp"
 #include "randomIdGenerator.hpp"
@@ -11,42 +10,52 @@ namespace SillyProjects
 
 Types::MarbleIdsPair LogicalPlayer::getFirstMarbleIdsPairToCompare() const
 {
-    const Types::Id idMin{1};
-    const Types::Id idMax{Taskmaster::s_maxNumberOfMarbles};
-    const uint      guessSize{4};
+    const uint firstGuessSize{4};
 
-    const auto first =
-        RandomIdGenerator::getMultipleUnique(idMin, idMax, guessSize);
-    const auto second = RandomIdGenerator::getMultipleUniqueExcluding(
-        idMin, idMax, guessSize, first);
-
-    return Types::MarbleIdsPair{first, second};
-}
-
-    while (second_set.size() < 4)
-    {
-        const int  id    = uni(rng);
-        const bool isNew = (first_set.find(id) == first_set.end());
-        if (isNew)
-        {
-            second_set.insert(id);
-        }
-    }
-
-
-    Types::MarbleIds first{};
-    Types::MarbleIds second{};
-
-    std::copy(first_set.begin(), first_set.end(), std::back_inserter(first));
-    std::copy(second_set.begin(), second_set.end(), std::back_inserter(second));
-
-    return Types::MarbleIdsPair{first, second};
+    return createMarbleIdsPairFromUnknownWithSize(firstGuessSize);
 }
 
 
 Types::MarbleIdsPair LogicalPlayer::getSecondMarbleIdsPairToCompare() const
 {
-    return Types::MarbleIdsPair{};
+    assert(m_playingStrategy.has_value());
+    if (m_playingStrategy.value() == PlayingStrategy::firstEqual)
+    {
+        return createMarbleIdsPairFromUnknownWithSize(2);
+    } else
+    {
+        return Types::MarbleIdsPair{};
+    }
+}
+
+Types::MarbleIdsPair LogicalPlayer::createMarbleIdsPairFromUnknownWithSize(
+    const uint desiredMarbleIdsSize) const
+{
+    assert(desiredMarbleIdsSize > 0);
+    const uint minIndex{0U};
+    const uint maxIndex{2U * desiredMarbleIdsSize - 1U};
+
+    const auto notTestedIds = getMarbleIdsWithStatus(MarbleStatus::unknown);
+    assert(notTestedIds.size() > maxIndex);
+
+    const auto firstIndices = RandomIdGenerator::getMultipleUnique(
+        minIndex, maxIndex, desiredMarbleIdsSize);
+    const auto secondIndices = RandomIdGenerator::getMultipleUniqueExcluding(
+        minIndex, maxIndex, desiredMarbleIdsSize, firstIndices);
+
+    const auto transformer = [&notTestedIds](const int i) -> int {
+        return notTestedIds[i];
+    };
+
+    Types::MarbleIds first{};
+    Types::MarbleIds second{};
+
+    std::transform(firstIndices.begin(), firstIndices.end(),
+                   std::back_inserter(first), transformer);
+    std::transform(secondIndices.begin(), secondIndices.end(),
+                   std::back_inserter(second), transformer);
+
+    return Types::MarbleIdsPair{first, second};
 }
 
 
@@ -92,7 +101,8 @@ void LogicalPlayer::setMarbleStatus(const Types::MarbleIds& marbleIds,
 {
     std::for_each(marbleIds.begin(), marbleIds.end(),
                   [this, &marbleStatus](const int id) -> void {
-                      m_marblesStatus[id] = marbleStatus;
+                      assert((id >= 1) && (id <= 12));
+                      m_marblesStatus[id - 1] = marbleStatus;
                   });
 }
 
@@ -101,11 +111,11 @@ Types::MarbleIds
 LogicalPlayer::getMarbleIdsWithStatus(const MarbleStatus marbleStatus) const
 {
     Types::MarbleIds result{};
-    for (int i = 0; i < Taskmaster::s_maxNumberOfMarbles; ++i)
+    for (Types::Id i = 0; i < Taskmaster::s_maxNumberOfMarbles; ++i)
     {
         if (m_marblesStatus[i] == marbleStatus)
         {
-            result.push_back(i);
+            result.push_back(i + 1);
         }
     }
     return result;
