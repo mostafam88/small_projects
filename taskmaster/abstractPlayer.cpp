@@ -8,51 +8,45 @@ namespace SillyProjects
 
 Types::MarbleIdsPair AbstractPlayer::getMarbleIdsPairToCompare()
 {
-    if (m_state == State::init)
+    assert(!m_currentAttemptMarbleIds.has_value());
+
+    m_currentAttemptMarbleIds =
+        getMarbleIdsPairToCompare(m_numberOfCompletedAttempts);
+
+    return m_currentAttemptMarbleIds.value();
+}
+
+
+Types::MarbleIdsPair AbstractPlayer::getMarbleIdsPairToCompare(
+    const int numberOfCompletedAttempts) const
+{
+    assert(numberOfCompletedAttempts >= 0 && numberOfCompletedAttempts <= 2);
+    if (numberOfCompletedAttempts == 0)
     {
-        m_currentAttemptMarbleIds = getFirstMarbleIdsPairToCompare();
-        m_state                   = State::firstAttemptDone;
-    } else if (m_state == State::firstResponseReceived)
+        return getFirstMarbleIdsPairToCompare();
+    } else if (numberOfCompletedAttempts == 1)
     {
-        m_currentAttemptMarbleIds = getSecondMarbleIdsPairToCompare();
-        m_state                   = State::secondAttemptDone;
-    } else if (m_state == State::secondResponceReceived)
-    {
-        m_currentAttemptMarbleIds = getThirdMarbleIdsPairToCompare();
-        m_state                   = State::thirdAttemptDone;
+        return getSecondMarbleIdsPairToCompare();
     } else
     {
-        // invalid m_state
-        assert(false);
+        return getThirdMarbleIdsPairToCompare();
     }
-
-    return m_currentAttemptMarbleIds;
 }
+
 
 void AbstractPlayer::updateStatus(
     const Weight::ComparisonResult comparisonResult)
 {
-    updateStatus(m_currentAttemptMarbleIds, comparisonResult);
-
-    if (m_state == State::firstAttemptDone)
-    {
-        m_state = State::firstResponseReceived;
-    } else if (m_state == State::secondAttemptDone)
-    {
-        m_state = State::secondResponceReceived;
-    } else if (m_state == State::thirdAttemptDone)
-    {
-        m_state = State::thirdResponceReceived;
-    } else
-    {
-        // invalid m_state
-        assert(false);
-    }
+    assert(m_currentAttemptMarbleIds.has_value());
+    updateStatus(m_currentAttemptMarbleIds.value(), comparisonResult);
+    m_currentAttemptMarbleIds.reset();
+    ++m_numberOfCompletedAttempts;
 }
+
 
 int AbstractPlayer::guessUniqueMarbleId() const
 {
-    assert(m_state == State::thirdResponceReceived);
+    assert(m_numberOfCompletedAttempts == 3);
     return getUniqueMarbleId();
 }
 
