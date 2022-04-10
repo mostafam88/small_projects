@@ -3,6 +3,7 @@
 #include <set>
 
 #include "logicalPlayer.hpp"
+#include "randomIdGenerator.hpp"
 
 
 namespace SillyProjects
@@ -10,19 +11,17 @@ namespace SillyProjects
 
 Types::MarbleIdsPair LogicalPlayer::getFirstMarbleIdsPairToCompare() const
 {
-    // https://stackoverflow.com/questions/5008804/generating-random-integer-from-a-range
-    std::random_device                 rd;
-    std::mt19937                       rng(rd());
-    std::uniform_int_distribution<int> uni(1, Taskmaster::s_maxNumberOfMarbles);
+    const Types::Id idMin{1};
+    const Types::Id idMax{Taskmaster::s_maxNumberOfMarbles};
+    const uint      guessSize{4};
 
+    const auto first =
+        RandomIdGenerator::getMultipleUnique(idMin, idMax, guessSize);
+    const auto second = RandomIdGenerator::getMultipleUniqueExcluding(
+        idMin, idMax, guessSize, first);
 
-    std::set<int> first_set{};
-    std::set<int> second_set{};
-    while ((first_set.size() < 4))
-    {
-        const int id = uni(rng);
-        first_set.insert(id);
-    }
+    return Types::MarbleIdsPair{first, second};
+}
 
     while (second_set.size() < 4)
     {
