@@ -51,10 +51,9 @@ bool Taskmaster::play(AbstractPlayer& player, std::ostream& os)
         const auto currentMarbleIdsPair = player.getMarbleIdsPairToCompare();
         const auto currentComparisonResult =
             compare(currentMarbleIdsPair.first, currentMarbleIdsPair.second);
-        player.updateStatus(currentComparisonResult);
-
         logPlayAttempt(attempt, currentMarbleIdsPair, currentComparisonResult,
                        os);
+        player.updateStatus(currentComparisonResult);
     }
 
     const auto guessedMarbleId = player.guessUniqueMarbleId();

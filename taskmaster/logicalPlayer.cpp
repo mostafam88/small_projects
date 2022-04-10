@@ -3,7 +3,6 @@
 #include <set>
 
 #include "logicalPlayer.hpp"
-#include "taskmaster.hpp"
 
 
 namespace SillyProjects
@@ -62,8 +61,48 @@ void LogicalPlayer::updateStatus(
     const Types::MarbleIdsPair&    currentAttemptMarbleIds,
     const Weight::ComparisonResult comparisonResult)
 {
+    if (comparisonResult == Weight::ComparisonResult::equal)
+    {
+        setMarbleStatus(currentAttemptMarbleIds.first, MarbleStatus::equal);
+        setMarbleStatus(currentAttemptMarbleIds.second, MarbleStatus::equal);
+    } else if (comparisonResult == Weight::ComparisonResult::heavier)
+    {
+        setMarbleStatus(currentAttemptMarbleIds.first, MarbleStatus::heavier);
+        setMarbleStatus(currentAttemptMarbleIds.second, MarbleStatus::lighter);
+        const auto rest = getMarbleIdsWithStatus(MarbleStatus::unknown);
+        setMarbleStatus(rest, MarbleStatus::equal);
+    } else
+    {
+        updateStatus(std::make_pair(currentAttemptMarbleIds.second,
+                                    currentAttemptMarbleIds.first),
+                     Weight::ComparisonResult::heavier);
+    }
 }
 
+
+void LogicalPlayer::setMarbleStatus(const Types::MarbleIds& marbleIds,
+                                    const MarbleStatus      marbleStatus)
+{
+    std::for_each(marbleIds.begin(), marbleIds.end(),
+                  [this, &marbleStatus](const int id) -> void {
+                      m_marblesStatus[id] = marbleStatus;
+                  });
+}
+
+
+Types::MarbleIds
+LogicalPlayer::getMarbleIdsWithStatus(const MarbleStatus marbleStatus) const
+{
+    Types::MarbleIds result{};
+    for (int i = 0; i < Taskmaster::s_maxNumberOfMarbles; ++i)
+    {
+        if (m_marblesStatus[i] == marbleStatus)
+        {
+            result.push_back(i);
+        }
+    }
+    return result;
+}
 
 int LogicalPlayer::getUniqueMarbleId() const
 {
